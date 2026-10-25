@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>İKY Yüksek Lisans - Yetişkin Öğrenme Kuramları Vaka Analizi</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Fonts Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Merriweather:ital,wght@0,300;0,400;0,700;1,300&display=swap" rel="stylesheet">
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            serif: ['Merriweather', 'serif'],
+          },
+          colors: {
+            brand: {
+              50: '#f0f7ff',
+              100: '#e0effe',
+              600: '#1e40af',
+              700: '#1d4ed8',
+              800: '#1e3a8a',
+              900: '#0f172a'
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    /* Özel stil dokunuşları */
+    .tab-active {
+      border-bottom: 3px solid #1d4ed8;
+      color: #1d4ed8;
+      font-weight: 600;
+    }
+    .custom-scrollbar::-webkit-scrollbar {
+      width: 6px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+      background-color: #cbd5e1;
+      border-radius: 9999px;
+    }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans antialiased min-h-screen flex flex-col justify-between">
+
+  <!-- Üst Başlık & Header -->
+  <header class="bg-gradient-to-r from-slate-900 via-indigo-950 to-blue-900 text-white shadow-lg sticky top-0 z-50">
+    <div class="max-w-5xl mx-auto px-4 py-3 sm:py-4 flex flex-col sm:flex-row justify-between items-center gap-2">
+      <div class="flex items-center space-x-3 text-center sm:text-left">
+        <div class="w-10 h-10 rounded-xl bg-blue-600/30 border border-blue-400/30 flex items-center justify-center text-blue-300">
+          <i class="fa-solid fa-graduation-cap text-xl"></i>
+        </div>
+        <div>
+          <h1 class="text-base sm:text-lg font-bold tracking-tight">İKY Yüksek Lisans | Eğitim & Geliştirme</h1>
+          <p class="text-xs text-blue-200">Yetişkin Öğrenme Kuramları: Knowles & Mezirow</p>
+        </div>
+      </div>
+      <div class="flex items-center gap-2 text-xs bg-white/10 px-3 py-1.5 rounded-full border border-white/15">
+        <span class="inline-block w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+        <span class="text-slate-200">Sınıf İçi İnteraktif Atölye</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- Mobil/Tablet Uyumlu Navigasyon Tabları -->
+  <nav class="bg-white border-b border-slate-200 shadow-sm sticky top-[68px] sm:top-[72px] z-40">
+    <div class="max-w-5xl mx-auto px-4 flex justify-between sm:justify-start space-x-2 sm:space-x-8 text-sm overflow-x-auto">
+      <button onclick="switchTab('vaka-tab')" id="tab-btn-vaka-tab" class="tab-btn py-3 px-2 flex items-center gap-2 text-slate-600 hover:text-blue-700 whitespace-nowrap tab-active transition-colors">
+        <i class="fa-solid fa-briefcase"></i> <span>1. Olay İncelemesi (Vaka)</span>
+      </button>
+      <button onclick="switchTab('kuram-tab')" id="tab-btn-kuram-tab" class="tab-btn py-3 px-2 flex items-center gap-2 text-slate-600 hover:text-blue-700 whitespace-nowrap transition-colors">
+        <i class="fa-solid fa-book-open-reader"></i> <span>2. Kuramsal Rehber</span>
+      </button>
+      <button onclick="switchTab('analiz-tab')" id="tab-btn-analiz-tab" class="tab-btn py-3 px-2 flex items-center gap-2 text-slate-600 hover:text-blue-700 whitespace-nowrap transition-colors">
+        <i class="fa-solid fa-pen-to-square"></i> <span>3. Analiz & Çözüm Formu</span>
+      </button>
+      <button onclick="switchTab('test-tab')" id="tab-btn-test-tab" class="tab-btn py-3 px-2 flex items-center gap-2 text-slate-600 hover:text-blue-700 whitespace-nowrap transition-colors">
+        <i class="fa-solid fa-circle-check"></i> <span>4. Hızlı Teşhis Testi</span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Ana İçerik Konteyneri -->
+  <main class="max-w-5xl mx-auto px-4 py-6 w-full flex-1">
+
+    <!-- SEKME 1: VAKA İNCELEMESİ -->
+    <section id="vaka-tab" class="tab-content block space-y-6">
+      <div class="bg-white rounded-2xl p-6 sm:p-8 shadow-sm border border-slate-200">
+        <div class="flex items-center justify-between border-b border-slate-100 pb-4 mb-5">
+          <span class="text-xs font-semibold uppercase tracking-wider text-blue-600 bg-blue-50 px-3 py-1 rounded-md">Vaka İncelemesi #2026-A</span>
+          <span class="text-xs text-slate-400"><i class="fa-regular fa-clock mr-1"></i> Okuma süresi: 3-4 dk</span>
+        </div>
+
+        <h2 class="text-xl sm:text-2xl font-bold text-slate-900 mb-3 font-serif">
+          "Atlas Perakende & Finans" Vakası: Dijitalleşme Çıkmazı ve Eğitim Direnci
+        </h2>
+
+        <div class="prose max-w-none text-slate-700 space-y-4 text-sm sm:text-base leading-relaxed">
+          <p class="font-medium text-slate-800 bg-amber-50/80 border-l-4 border-amber-500 p-4 rounded-r-lg">
+            <strong>Şirket Profili:</strong> Ülke çapında 120 mağazası ve 2.500 saha/satış çalışanı olan, 30 yıllık köklü bir perakende ve tüketici finansmanı kuruluşu. Şirket, yapay zekâ destekli yeni bir dinamik fiyatlandırma, CRM ve müşteri segmentasyon platformuna geçiş kararı almıştır.
+          </p>
+
+          <h3 class="text-base font-bold text-slate-900 pt-2 flex items-center gap-2">
+            <i class="fa-solid fa-circle-exclamation text-rose-500"></i> Mevcut Durum & Sorunlar
+          </h3>
+          <p>
+            Yeni İK Eğitim ve Geliştirme Departmanı, üst yönetimin talebiyle <em>"Yapay Zekâ ve Dijital Müşteri Deneyimi Dönüşümü"</em> adında 3 haftalık zorunlu bir eğitim programı planlamıştır. Eğitim programı şu şekilde kurgulanmıştır:
+          </p>
+
+          <ul class="list-disc pl-5 space-y-2 text-slate-700">
+            <li>
+              <strong>Didaktik ve Standart Tasarım:</strong> Tüm kıdem grupları (15 yıllık deneyimli bölge satış liderleri ile 6 aylık yeni çalışanlar) karma sınıflara alınmış; bir dış eğitmen günde 6 saat boyunca slaytlar eşliğinde yazılımın teorik parametrelerini, algoritmik temellerini ve buton işlevlerini okul dersi formatında anlatmıştır.
+            </li>
+            <li>
+              <strong>Direnç ve Güvensizlik:</strong> Şirketin en yüksek primini getiren 10+ yıllık kıdemli portföy yöneticileri programa açıkça direnç göstermektedir. Bir yönetici toplantıda şu ifadeyi kullanmıştır: <em>"Ben 15 yıldır müşterinin gözünden ne alacağını anlarım. Benim tecrübemi ve sezgilerimi bir algoritma kutusuna hapsedemezsiniz. Bu eğitim bize hiçbir değer katmıyor, zamanımızı çalıyor ve sadece teorik bilgi yüklüyor."</em>
+            </li>
+            <li>
+              <strong>Rol Bunalımı (Sarsıcı İkilem):</strong> Yeni sisteme geçişle birlikte, yöneticilerin geleneksel "sezgiye dayalı, otoriter ve kontrol odaklı" yönetim tarzı çalışmamaya başlamış; müşteri kaybı yaşanmış ve ilk kez hedeflerin altında kalmışlardır. Yöneticiler başarılarının temeli olan eski zihinsel varsayımlarının geçersiz kalmasıyla yoğun bir hayal kırıklığı ve kimlik krizi yaşamaktadır.
+            </li>
+            <li>
+              <strong>Sonuç:</strong> Eğitime katılım oranı %42'de kalmış, eğitim sonu memnuniyet skoru 10 üzerinden 2.8 çıkmış ve İK Direktörü acil bir stratejik revizyon talep etmiştir.
+            </li>
+          </ul>
+
+          <div class="mt-6 p-4 bg-blue-50 border border-blue-200 rounded-xl">
+            <h4 class="font-bold text-blue-900 text-sm flex items-center gap-2">
+              <i class="fa-solid fa-clipboard-question text-blue-600"></i> Yüksek Lisans Öğrencilerinden Beklenen Görev:
+            </h4>
+            <p class="text-xs sm:text-sm text-blue-800 mt-1">
+              Bu başarısız eğitim müdahalesini <strong>Malcolm Knowles’ın Andragoji Kuramı (6 İlke)</strong> ve yöneticilerin zihniyet dönüşümünü ise <strong>Jack Mezirow’un Dönüşümsel Öğrenme Kuramı (Dönüştürücü İkilem & Eleştirel Yansıtma)</strong> ışığında analiz edip, somut bir İK Eğitim Stratejisi tasarlamak.
+            </p>
+          </div>
+        </div>
+
+        <div class="mt-6 flex justify-end">
+          <button onclick="switchTab('kuram-tab')" class="inline-flex items-center gap-2 bg-blue-700 hover:bg-blue-800 text-white px-5 py-2.5 rounded-xl font-medium text-sm transition-all shadow-md hover:shadow">
+            Kuramsal Rehberi İncele <i class="fa-solid fa-arrow-right"></i>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- SEKME 2: KURAMSAL REHBER -->
+    <section id="kuram-tab" class="tab-content hidden space-y-6">
+      
+      <!-- Knowles Kartı -->
+      <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200">
+        <div class="flex items-center gap-3 border-b border-slate-100 pb-3 mb-4">
+          <div class="p-2 bg-blue-100 text-blue-700 rounded-lg">
+            <i class="fa-solid fa-user-tie text-lg"></i>
+          </div>
+          <div>
+            <h3 class="text-lg font-bold text-slate-900">Malcolm Knowles: Andragoji Kuramı</h3>
+            <p class="text-xs text-slate-500">Yetişkinlerin Nasıl Öğrendiğine Dair 6 Temel İlke</p>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          
+          <div class="p-4 rounded-xl bg-slate-50 border border-slate-200">
+            <div class="flex items-center gap-2 text-blue-700 font-bold text-sm mb-1">
+              <span class="w-5 h-5 rounded-full bg-blue-200 text-blue-800 flex items-center justify-center text-xs">1</span>
+              Bilme İhtiyacı (Need to Know)
+            </div>
+            <p class="text-xs text-slate-600 leading-relaxed">
+              Yetişkinler bir şeyi öğrenmeden önce "Bunu neden öğrenmeliyim?" ve "Bu bana pratikte ne kazandıracak / neyi kurtaracak?" sorularına net cevap ararlar.
+            </p>
+          </div>
+
+          <div class="p-4 rounded-xl bg-slate-50 border border-slate-200">
+            <div class="flex items-center gap-2 text-blue-700 font-bold text-sm mb-1">
+              <span class="w-5 h-5 rounded-full bg-blue-200 text-blue-800 flex items-center justify-center text-xs">2</span>
+              Özerklik / Benlik Algısı (Self-Concept)
+            </div>
+            <p class="text-xs text-slate-600 leading-relaxed">
+              Yetişkin bağımsızdır; kendi kararlarını yönetmek ister. Pasif bir alıcı gibi sınıf masasına oturtulmaktan ve yönlendirilmekten rahatsızlık duyar.
+            </p>
+          </div>
+
+          <div class="p-4 rounded-xl bg-slate-50 border border-slate-200">
+            <div class="flex items-center gap-2 text-blue-700 font-bold text-sm mb-1">
+              <span class="w-5 h-5 rounded-full bg-blue-200 text-blue-800 flex items-center justify-center text-xs">3</span>
+              Deneyim Birikimi (Role of Experience)
+            </div>
+            <p class="text-xs text-slate-600 leading-relaxed">
+              Yetişkinin geçmiş deneyimleri en zengin öğrenme kaynağıdır. Yok sayılması direnç doğurur; yeni bilgi bu deneyimle sentezlenmelidir.
+            </p>
+          </div>
+
+          <div class="p-4 rounded-xl bg-slate-50 border border-slate-200">
+            <div class="flex items-center gap-2 text-blue-700 font-bold text-sm mb-1">
+              <span class="w-5 h-5 rounded-full bg-blue-200 text-blue-800 flex items-center justify-center text-xs">4</span>
+              Öğrenmeye Hazır Oluş (Readiness)
+            </div>
+            <p class="text-xs text-slate-600 leading-relaxed">
+              Öğrenme isteği, gerçek yaşamdaki rol ve görevlerin gerektirdiği ihtiyaçlarla eş zamanlı tetiklenir (örn: terfi, sistem değişikliği krizi).
+            </p>
+          </div>
+
+          <div class="p-4 rounded-xl bg-slate-50 border border-slate-200">
+            <div class="flex items-center gap-2 text-blue-700 font-bold text-sm mb-1">
+              <span class="w-5 h-5 rounded-full bg-blue-200 text-blue-800 flex items-center justify-center text-xs">5</span>
+              Problem Odaklılık (Orientation)
+            </div>
+            <p class="text-xs text-slate-600 leading-relaxed">
+              Konu/müfredat odaklı değil, işteki somut bir darboğazı çözecek görev ve problem odaklı (problem-centered) öğrenmeye yönelirler.
+            </p>
+          </div>
+
+          <div class="p-4 rounded-xl bg-slate-50 border border-slate-200">
+            <div class="flex items-center gap-2 text-blue-700 font-bold text-sm mb-1">
+              <span class="w-5 h-5 rounded-full bg-blue-200 text-blue-800 flex items-center justify-center text-xs">6</span>
+              İçsel Motivasyon (Internal Motivation)
+            </div>
+            <p class="text-xs text-slate-600 leading-relaxed">
+              Dışsal ödüller (puan, katılım belgesi) yetersiz kalır; mesleki saygınlık, özgüven, iş tatmini ve yeterlilik gibi içsel etkenler baskındır.
+            </p>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Mezirow Kartı -->
+      <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200">
+        <div class="flex items-center gap-3 border-b border-slate-100 pb-3 mb-4">
+          <div class="p-2 bg-purple-100 text-purple-700 rounded-lg">
+            <i class="fa-solid fa-arrows-spin text-lg"></i>
+          </div>
+          <div>
+            <h3 class="text-lg font-bold text-slate-900">Jack Mezirow: Dönüşümsel Öğrenme Kuramı</h3>
+            <p class="text-xs text-slate-500">Zihinsel Kalıpların (Referans Çerçeveleri) Değişimi</p>
+          </div>
+        </div>
+
+        <div class="space-y-3">
+          <div class="p-4 rounded-xl bg-purple-50/60 border border-purple-200">
+            <h4 class="text-sm font-bold text-purple-900 flex items-center gap-2">
+              <i class="fa-solid fa-bolt text-purple-600"></i> 1. Sarsıcı / Dönüştürücü İkilem (Disorienting Dilemma)
+            </h4>
+            <p class="text-xs text-purple-950 mt-1 leading-relaxed">
+              Bireyin geçmişten gelen varsayımlarının, inançlarının ve alışkanlıklarının artık mevcut durumu açıklamaya veya problemi çözmeye yetmediği kriz ânı. Şok veya başarısızlık öğrenmenin başlangıç kıvılcımıdır.
+            </p>
+          </div>
+
+          <div class="p-4 rounded-xl bg-purple-50/60 border border-purple-200">
+            <h4 class="text-sm font-bold text-purple-900 flex items-center gap-2">
+              <i class="fa-solid fa-magnifying-glass-chart text-purple-600"></i> 2. Eleştirel Öz-Yansıtma (Critical Reflection on Assumptions)
+            </h4>
+            <p class="text-xs text-purple-950 mt-1 leading-relaxed">
+              Bireyin "Ben neden böyle düşünüyordum? Hangi örtük inançlarım beni kısıtlıyor?" diyerek kendi düşünce yapısını ve kalıp yargılarını sorgulaması. Sadece teknik bir beceri edinme değil, epistemolojik bir yüzleşmedir.
+            </p>
+          </div>
+
+          <div class="p-4 rounded-xl bg-purple-50/60 border border-purple-200">
+            <h4 class="text-sm font-bold text-purple-900 flex items-center gap-2">
+              <i class="fa-solid fa-seedling text-purple-600"></i> 3. Yeni Rollerin Denenmesi & Yeniden Uyumlanma (Reintegration)
+            </h4>
+            <p class="text-xs text-purple-950 mt-1 leading-relaxed">
+              Kişinin yeni varsayımlarla (örneğin: "Yapay zekâ sezgimi yok etmiyor, onu doğrulayan bir analitik ortak") yeni davranış kalıpları ve roller denemesi ve bu yeni zihniyeti kurumsal kimliğine entegre etmesi.
+            </p>
+          </div>
+        </div>
+
+        <div class="mt-6 flex justify-end">
+          <button onclick="switchTab('analiz-tab')" class="inline-flex items-center gap-2 bg-indigo-700 hover:bg-indigo-800 text-white px-5 py-2.5 rounded-xl font-medium text-sm transition-all shadow-md">
+            Analiz Formuna Geç <i class="fa-solid fa-arrow-right"></i>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- SEKME 3: ANALİZ & ÇÖZÜM FORMU -->
+    <section id="analiz-tab" class="tab-content hidden space-y-6">
+      <div class="bg-white rounded-2xl p-6 sm:p-8 shadow-sm border border-slate-200">
+        
+        <div class="border-b border-slate-200 pb-4 mb-6">
+          <h2 class="text-xl font-bold text-slate-900">Öğrenci Analiz & İK Strateji Tasarım Paneli</h2>
+          <p class="text-xs sm:text-sm text-slate-500 mt-1">
+            Yanıtlarınızı aşağıya yazınız. Sayfayı yenilediğinizde verileriniz kaybolmaz (Tarayıcı önbelleğinde saklanır).
+          </p>
+        </div>
+
+        <form id="analysis-form" class="space-y-6" onsubmit="event.preventDefault(); saveAndPreview();">
+          
+          <!-- Öğrenci Bilgisi -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label class="block text-xs font-semibold uppercase tracking-wider text-slate-600 mb-1">Ad Soyad / Çalışma Grubu</label>
+              <input type="text" id="student_name" class="w-full px-3 py-2 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none" placeholder="Örn: Ayşe Yılmaz / Grup A">
+            </div>
+            <div>
+              <label class="block text-xs font-semibold uppercase tracking-wider text-slate-600 mb-1">Rol / Bakış Açısı</label>
+              <input type="text" id="student_role" class="w-full px-3 py-2 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none" placeholder="Örn: İK Eğitim ve Geliştirme Danışmanı">
+            </div>
+          </div>
+
+          <!-- Soru 1: Knowles Açısından Tasarım Hataları -->
+          <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-2">
+            <label class="block text-sm font-bold text-slate-800">
+              <span class="text-blue-600 font-extrabold">Soru 1 (Knowles Perspektifi):</span> Atlas Perakende'nin mevcut eğitim programında Malcolm Knowles'ın hangi ilkeleri ihlal edilmiştir? En az iki ilkeyi somut olaylarla ilişkilendirerek açıklayınız.
+            </label>
+            <textarea id="ans_knowles_flaws" rows="4" class="w-full p-3 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none bg-white" placeholder="Örn: Deneyim ilkesi göz ardı edilmiştir çünkü 15 yıllık personelin bilgi birikimi yok sayılmış, okul çocuğu gibi sınıfa oturtulmuştur..."></textarea>
+          </div>
+
+          <!-- Soru 2: Knowles Temelli İyileştirme Tasarımı -->
+          <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-2">
+            <label class="block text-sm font-bold text-slate-800">
+              <span class="text-blue-600 font-extrabold">Soru 2 (Andragojik Tasarım):</span> Bu eğitimi Knowles'ın <em>"Özerklik/Benlik Algısı"</em> ve <em>"Problem Odaklılık"</em> ilkelerine uygun hale getirmek için eğitim formatını (yöntem, mekan, içerik kurgusu) nasıl yeniden tasarlarsınız?
+            </label>
+            <textarea id="ans_knowles_solution" rows="4" class="w-full p-3 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none bg-white" placeholder="Örn: Didaktik 6 saatlik sunum yerine, personelin gerçek kayıp müşteri vakalarını getirdiği atölye (workshop) çalışması yapılmalı..."></textarea>
+          </div>
+
+          <!-- Soru 3: Mezirow ve Sarsıcı İkilem Analizi -->
+          <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-2">
+            <label class="block text-sm font-bold text-slate-800">
+              <span class="text-purple-600 font-extrabold">Soru 3 (Mezirow Perspektifi):</span> Kıdemli yöneticilerin yaşadığı direnç basit bir "teknoloji bilmeme" sorunu mudur, yoksa epistemolojik bir "referans çerçevesi çöküşü" müdür? Yöneticilerin yaşadığı <em>Sarsıcı İkilemi (Disorienting Dilemma)</em> teşhis ediniz.
+            </label>
+            <textarea id="ans_mezirow_dilemma" rows="4" class="w-full p-3 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:outline-none bg-white" placeholder="Örn: Yöneticilerin 'Ben sadece sezgimle başarılı olurum' inancı çökmüştür. Bu durum kimlik ve güç kaybı korkusu yaratmaktadır..."></textarea>
+          </div>
+
+          <!-- Soru 4: Dönüşümsel Öğrenme Süreci Kurgusu -->
+          <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-2">
+            <label class="block text-sm font-bold text-slate-800">
+              <span class="text-purple-600 font-extrabold">Soru 4 (Zihniyet Dönüşümü Müdahalesi):</span> İK olarak bu yöneticilerin <em>"Eleştirel Öz-Yansıtma"</em> yapabilmeleri ve yapay zekâyı bir tehdit değil işbirlikçi araç olarak görmeleri için eğitim programına ne tür bir yansıtma/koçluk seansı eklersiniz?
+            </label>
+            <textarea id="ans_mezirow_strategy" rows="4" class="w-full p-3 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:outline-none bg-white" placeholder="Örn: Akran mentörlüğü seansları düzenlenip, eski ve yeni yöntemlerin kıyaslandığı güvenli yansıtma çemberleri kurulabilir..."></textarea>
+          </div>
+
+          <!-- Butonlar -->
+          <div class="flex flex-col sm:flex-row gap-3 pt-4">
+            <button type="submit" class="flex-1 bg-blue-700 hover:bg-blue-800 text-white font-semibold py-3 px-4 rounded-xl shadow transition-all flex items-center justify-center gap-2 text-sm">
+              <i class="fa-solid fa-floppy-disk"></i> Yanıtları Kaydet & Özeti Hazırla
+            </button>
+            <button type="button" onclick="copyAnalysisToClipboard()" class="bg-slate-800 hover:bg-slate-900 text-white font-semibold py-3 px-5 rounded-xl shadow transition-all flex items-center justify-center gap-2 text-sm">
+              <i class="fa-regular fa-copy"></i> Metin Olarak Kopyala
+            </button>
+          </div>
+        </form>
+
+        <!-- Kopyalama Bilgi Notu -->
+        <div id="copy-success-badge" class="hidden mt-4 p-3 bg-emerald-50 border border-emerald-200 text-emerald-800 rounded-xl text-xs sm:text-sm flex items-center gap-2">
+          <i class="fa-solid fa-circle-check text-emerald-600"></i>
+          <span>Analiziniz panoya kopyalandı! Dilerseniz sınıfın ortak dokümanına, Slack/Teams kanalına veya hocanıza yapıştırabilirsiniz.</span>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- SEKME 4: HIZLI TEŞHİS TESTİ -->
+    <section id="test-tab" class="tab-content hidden space-y-6">
+      <div class="bg-white rounded-2xl p-6 sm:p-8 shadow-sm border border-slate-200">
+        
+        <div class="border-b border-slate-200 pb-4 mb-6">
+          <h2 class="text-xl font-bold text-slate-900">Kuramsal Uyum Hızlı Teşhis Testi</h2>
+          <p class="text-xs sm:text-sm text-slate-500 mt-1">
+            Aşağıdaki 3 kurumsal durumu doğru kuram ve kavram ile eşleştiriniz.
+          </p>
+        </div>
+
+        <div class="space-y-6">
+          
+          <!-- Soru 1 -->
+          <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-3">
+            <p class="text-sm font-semibold text-slate-800">
+              1. "Yöneticinin 15 yıllık kariyeri boyunca inandığı 'Müşteri sadece yüz yüze ikna edilir' varsayımının, algoritmanın getirdiği veriler karşısında geçersiz kalması ve yöneticinin derin bir kafa karışıklığı yaşaması" hangi kavrama örnektir?
+            </p>
+            <div class="space-y-2 text-sm">
+              <label class="flex items-center gap-2 p-2 bg-white rounded-lg border border-slate-200 cursor-pointer hover:bg-blue-50">
+                <input type="radio" name="quiz1" value="A" class="text-blue-600"> <span>A) Knowles - Öğrenmeye Hazır Oluş</span>
+              </label>
+              <label class="flex items-center gap-2 p-2 bg-white rounded-lg border border-slate-200 cursor-pointer hover:bg-blue-50">
+                <input type="radio" name="quiz1" value="B" class="text-blue-600"> <span>B) Mezirow - Sarsıcı İkilem (Disorienting Dilemma)</span>
+              </label>
+              <label class="flex items-center gap-2 p-2 bg-white rounded-lg border border-slate-200 cursor-pointer hover:bg-blue-50">
+                <input type="radio" name="quiz1" value="C" class="text-blue-600"> <span>C) Knowles - Dışsal Motivasyon</span>
+              </label>
+            </div>
+            <div id="quiz1-feedback" class="text-xs font-semibold hidden"></div>
+          </div>
+
+          <!-- Soru 2 -->
+          <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-3">
+            <p class="text-sm font-semibold text-slate-800">
+              2. "Eğitimcinin katılımcılara yazılım butonlarını ezberletmek yerine, katılımcıların getirdiği 'sorunlu gerçek müşteri dosyalarını' ele alarak programı kurgulaması" hangi andragojik ilkeye en doğrudan örnektir?
+            </p>
+            <div class="space-y-2 text-sm">
+              <label class="flex items-center gap-2 p-2 bg-white rounded-lg border border-slate-200 cursor-pointer hover:bg-blue-50">
+                <input type="radio" name="quiz2" value="A" class="text-blue-600"> <span>A) Problem Odaklılık (Problem-Centered Orientation)</span>
+              </label>
+              <label class="flex items-center gap-2 p-2 bg-white rounded-lg border border-slate-200 cursor-pointer hover:bg-blue-50">
+                <input type="radio" name="quiz2" value="B" class="text-blue-600"> <span>B) Pedagojik Bağımlılık</span>
+              </label>
+              <label class="flex items-center gap-2 p-2 bg-white rounded-lg border border-slate-200 cursor-pointer hover:bg-blue-50">
+                <input type="radio" name="quiz2" value="C" class="text-blue-600"> <span>C) Dışsal Koşullanma</span>
+              </label>
+            </div>
+            <div id="quiz2-feedback" class="text-xs font-semibold hidden"></div>
+          </div>
+
+          <!-- Test Değerlendirme Butonu -->
+          <div class="pt-2">
+            <button onclick="checkQuiz()" class="w-full sm:w-auto bg-slate-900 hover:bg-black text-white px-6 py-2.5 rounded-xl font-medium text-sm transition-all shadow">
+              Yanıtları Kontrol Et
+            </button>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Altbilgi (Footer) -->
+  <footer class="bg-white border-t border-slate-200 py-4 text-center text-xs text-slate-500">
+    <div class="max-w-5xl mx-auto px-4 flex flex-col sm:flex-row justify-between items-center gap-2">
+      <span>İnsan Kaynakları Yönetimi Yüksek Lisans Programı &copy; 2026</span>
+      <span>Yetişkin Öğrenme Kuramları İnteraktif Pedagojik Vaka Modülü</span>
+    </div>
+  </footer>
+
+  <!-- İstemci Tarafı JavaScript -->
+  <script>
+    // Tab Değiştirme Fonksiyonu
+    function switchTab(tabId) {
+      const contents = document.querySelectorAll('.tab-content');
+      contents.forEach(el => el.classList.add('hidden'));
+
+      const currentContent = document.getElementById(tabId);
+      if (currentContent) {
+        currentContent.classList.remove('hidden');
+      }
+
+      const buttons = document.querySelectorAll('.tab-btn');
+      buttons.forEach(btn => btn.classList.remove('tab-active'));
+
+      const activeBtn = document.getElementById('tab-btn-' + tabId);
+      if (activeBtn) {
+        activeBtn.classList.add('tab-active');
+      }
+
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // Form Bilgilerini LocalStorage'a kaydetme
+    function saveAndPreview() {
+      const data = {
+        name: document.getElementById('student_name').value,
+        role: document.getElementById('student_role').value,
+        knowlesFlaws: document.getElementById('ans_knowles_flaws').value,
+        knowlesSolution: document.getElementById('ans_knowles_solution').value,
+        mezirowDilemma: document.getElementById('ans_mezirow_dilemma').value,
+        mezirowStrategy: document.getElementById('ans_mezirow_strategy').value,
+      };
+
+      try {
+        localStorage.setItem('iky_vaka_analiz', JSON.stringify(data));
+      } catch (e) {
+        console.warn('LocalStorage erişilemedi.');
+      }
+
+      const badge = document.getElementById('copy-success-badge');
+      badge.classList.remove('hidden');
+      badge.innerHTML = `<i class="fa-solid fa-circle-check text-emerald-600"></i> <span>Yanıtlarınız tarayıcıya kaydedildi. Dersi takip ederken düzenlemeye devam edebilirsiniz.</span>`;
+      setTimeout(() => {
+        badge.classList.add('hidden');
+      }, 4000);
+    }
+
+    // Önceki Cevapları Yükleme
+    function loadSavedData() {
+      try {
+        const raw = localStorage.getItem('iky_vaka_analiz');
+        if (raw) {
+          const data = JSON.parse(raw);
+          if (data.name) document.getElementById('student_name').value = data.name;
+          if (data.role) document.getElementById('student_role').value = data.role;
+          if (data.knowlesFlaws) document.getElementById('ans_knowles_flaws').value = data.knowlesFlaws;
+          if (data.knowlesSolution) document.getElementById('ans_knowles_solution').value = data.knowlesSolution;
+          if (data.mezirowDilemma) document.getElementById('ans_mezirow_dilemma').value = data.mezirowDilemma;
+          if (data.mezirowStrategy) document.getElementById('ans_mezirow_strategy').value = data.mezirowStrategy;
+        }
+      } catch (e) {
+        console.warn('Veri yüklenemedi.');
+      }
+    }
+
+    // Panoya Kopyalama (Clipboard)
+    function copyAnalysisToClipboard() {
+      const name = document.getElementById('student_name').value || 'İsimsiz Öğrenci';
+      const role = document.getElementById('student_role').value || 'Belirtilmedi';
+      const q1 = document.getElementById('ans_knowles_flaws').value || 'Cevap girilmedi.';
+      const q2 = document.getElementById('ans_knowles_solution').value || 'Cevap girilmedi.';
+      const q3 = document.getElementById('ans_mezirow_dilemma').value || 'Cevap girilmedi.';
+      const q4 = document.getElementById('ans_mezirow_strategy').value || 'Cevap girilmedi.';
+
+      const formattedText = 
+`==============================================
+İKY YÜKSEK LİSANS - VAKA ANALİZ RAPORU
+Katılımcı / Grup: ${name}
+Rol: ${role}
+Tarih: ${new Date().toLocaleDateString('tr-TR')}
+==============================================
+
+[1. MALCOLM KNOWLES - TASARIM HATALARI VE İHLALLER]
+${q1}
+
+[2. MALCOLM KNOWLES - ANDRAGOJİK ÇÖZÜM VE YENİDEN TASARIM]
+${q2}
+
+[3. JACK MEZIROW - SARSICI İKİLEM (DISORIENTING DILEMMA) TEŞHİSİ]
+${q3}
+
+[4. JACK MEZIROW - ELEŞTİREL YANSITMA VE ZİHNİYET DÖNÜŞÜM STRATEJİSİ]
+${q4}
+==============================================`;
+
+      // execCommand fallback desteği ile kopyalama
+      const tempTextArea = document.createElement("textarea");
+      tempTextArea.value = formattedText;
+      tempTextArea.style.position = "fixed";
+      tempTextArea.style.left = "-9999px";
+      document.body.appendChild(tempTextArea);
+      tempTextArea.select();
+      
+      try {
+        document.execCommand('copy');
+        const badge = document.getElementById('copy-success-badge');
+        badge.innerHTML = `<i class="fa-solid fa-circle-check text-emerald-600"></i> <span>Tüm analiz raporu panoya kopyalandı! Doğrudan WhatsApp, Mail veya sınıf formuna yapıştırabilirsiniz.</span>`;
+        badge.classList.remove('hidden');
+        setTimeout(() => {
+          badge.classList.add('hidden');
+        }, 5000);
+      } catch (err) {
+        console.error('Kopyalama hatası:', err);
+      } finally {
+        document.body.removeChild(tempTextArea);
+      }
+    }
+
+    // Mini Test Kontrolü
+    function checkQuiz() {
+      const q1Val = document.querySelector('input[name="quiz1"]:checked')?.value;
+      const q2Val = document.querySelector('input[name="quiz2"]:checked')?.value;
+
+      const fb1 = document.getElementById('quiz1-feedback');
+      const fb2 = document.getElementById('quiz2-feedback');
+
+      fb1.classList.remove('hidden', 'text-emerald-600', 'text-rose-600');
+      fb2.classList.remove('hidden', 'text-emerald-600', 'text-rose-600');
+
+      if (q1Val === 'B') {
+        fb1.innerHTML = ' Doğru! (Mezirow: Eski varsayımların çöküşü sarsıcı ikilemdir.)';
+        fb1.classList.add('text-emerald-600');
+      } else {
+        fb1.innerHTML = ' Yanlış. Doğru cevap B (Sarsıcı İkilem - Disorienting Dilemma).';
+        fb1.classList.add('text-rose-600');
+      }
+
+      if (q2Val === 'A') {
+        fb2.innerHTML = ' Doğru! (Knowles: Gerçek vakalar problem ve görev odaklılığı yansıtır.)';
+        fb2.classList.add('text-emerald-600');
+      } else {
+        fb2.innerHTML = ' Yanlış. Doğru cevap A (Problem Odaklılık).';
+        fb2.classList.add('text-rose-600');
+      }
+    }
+
+    // Sayfa Yüklendiğinde
+    window.onload = function() {
+      loadSavedData();
+    };
+  </script>
+</body>
+</html>
