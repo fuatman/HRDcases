@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Örnek Olay: Hurda Oranı Neden Arttı? | Eğitim İhtiyaç Analizi</title>
+<style>
+:root{--bg:#eef1f4;--card:#fff;--ink:#1b2733;--mut:#55636f;--steel:#2f4b63;--line:#cfd7de;--acc:#f2b705;--ok:#1f7a4d;--bad:#b4332a;--okbg:#e4f3ea;--badbg:#f8e6e4}
+@media (prefers-color-scheme:dark){:root{--bg:#141b22;--card:#1d2731;--ink:#e8edf1;--mut:#9fb0be;--steel:#8fb3d1;--line:#33424f;--okbg:#18372a;--badbg:#3d1f1c;--ok:#6fd1a0;--bad:#f09088}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:17px/1.65 "Segoe UI",system-ui,-apple-system,Roboto,sans-serif}
+main{max-width:860px;margin:0 auto;padding:0 20px 80px}
+header{background:var(--steel);color:#fff;padding:48px 20px 40px;border-bottom:8px solid var(--acc)}
+@media (prefers-color-scheme:dark){header{background:#22394c}}
+header div{max-width:860px;margin:0 auto}
+header p{margin:0 0 8px;opacity:.85;font-size:15px}
+h1{margin:0;font-size:clamp(28px,5vw,44px);line-height:1.15;letter-spacing:-.01em}
+h2{font-size:24px;margin:48px 0 12px;padding-left:14px;border-left:6px solid var(--acc)}
+h3{font-size:18px;margin:0 0 6px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:6px;padding:20px 22px;margin:16px 0}
+.mut{color:var(--mut);font-size:15px}
+.tabs{display:flex;flex-wrap:wrap;gap:6px;margin-top:16px}
+.tabs button{font:inherit;font-size:15px;padding:8px 14px;border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:4px;cursor:pointer}
+.tabs button[aria-selected=true]{background:var(--steel);color:#fff;border-color:var(--steel)}
+.panel{display:none}.panel.on{display:block}
+blockquote{margin:0;padding-left:16px;border-left:3px solid var(--line);font-style:italic}
+.bar{display:grid;grid-template-columns:70px 1fr 56px;gap:10px;align-items:center;margin:8px 0;font-size:15px}
+.bar i{display:block;height:20px;background:var(--steel);border-radius:2px}
+.bar i.hi{background:var(--bad)}
+button.main{font:inherit;font-weight:600;padding:10px 20px;background:var(--acc);color:#1b2733;border:0;border-radius:4px;cursor:pointer}
+button:focus-visible,select:focus-visible,input:focus-visible,textarea:focus-visible{outline:3px solid var(--acc);outline-offset:2px}
+.f{display:grid;grid-template-columns:1fr 210px;gap:12px;padding:14px 0;border-bottom:1px solid var(--line)}
+.f:last-of-type{border:0}
+@media(max-width:640px){.f{grid-template-columns:1fr}}
+select,textarea{font:inherit;font-size:16px;width:100%;padding:8px;border:1px solid var(--line);border-radius:4px;background:var(--card);color:var(--ink)}
+.fb{grid-column:1/-1;font-size:15px;padding:8px 12px;border-radius:4px;display:none}
+.fb.ok{display:block;background:var(--okbg);color:var(--ok)}
+.fb.bad{display:block;background:var(--badbg);color:var(--bad)}
+label.opt{display:block;padding:12px 14px;margin:8px 0;border:1px solid var(--line);border-radius:4px;cursor:pointer}
+label.opt:hover{border-color:var(--steel)}
+.res{margin-top:12px;padding:12px 14px;border-radius:4px;display:none}
+ol.q li{margin:10px 0}
+.role{display:grid;grid-template-columns:150px 1fr;gap:8px;padding:8px 0;border-bottom:1px solid var(--line);font-size:16px}
+@media(max-width:560px){.role{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<header><div>
+<p>Eğitim ve Geliştirme · ADDIE Modeli · Analiz aşaması</p>
+<h1>Hurda oranı neden arttı?</h1>
+</div></header>
+<main>
+
+<section>
+<h2>Etkinliğin akışı</h2>
+<div class="card">
+<p style="margin-top:0"><b>Toplam süre: yaklaşık 50–60 dakika.</b> Önce tek başınıza çalışacak, sonra grubunuzla tartışacaksınız.</p>
+<p class="mut" style="margin-bottom:0">Bölüm 1: Olayı okuyun (10 dk) · Bölüm 2: Bulguları sınıflandırın ve karar verin (15 dk) · Bölüm 3: Grup tartışması (25 dk) · Bölüm 4: Kapanış (5 dk). Seçimleriniz bu sayfada saklanmaz; sayfayı yenilerseniz sıfırlanır.</p>
+</div>
+</section>
+
+<section>
+<h2>Bölüm 1 · Olay</h2>
+<p><b>Menderes Pres ve Kalıp A.Ş.</b>, Ege Bölgesi’nde otomotiv yan sanayiye sac metal parça üreten, 180 çalışanlı bir firmadır. Eylül ayında 4,2 milyon TL’lik yatırımla yeni bir otomatik pres hattı devreye alınmıştır. Hattı 14 operatör kullanıyor; hepsi eski hatta ortalama 6 yıl çalışmış deneyimli kişiler.</p>
+<p>Yeni hattın ilk iki ayında hurda oranı ikiye katlanmaktan fazla arttı. Ana müşteri iki parti ürünü iade etti ve firmaya resmi bir uyarı gönderdi. Üretim Müdürü Selim Bey, İnsan Kaynakları’na şu e-postayı yazdı:</p>
+<div class="card"><blockquote>“Yeni hatta hata yapıyorlar, belli ki bilmiyorlar. Operatörlerin hepsine acilen eğitim verelim. Bütçeyi ayırdım, gelecek ay başlasın.”</blockquote></div>
+<p>İK Uzmanı olarak göreviniz, eğitim programını tasarlamaya geçmeden önce <b>gerçekten bir eğitim ihtiyacı olup olmadığını</b> anlamaktır. Aşağıdaki kaynaklar sizin toplayabildiğiniz verilerdir.</p>
+
+<div class="tabs" role="tablist" aria-label="Veri kaynakları">
+<button role="tab" aria-selected="true" data-p="p1">Üretim verisi</button>
+<button role="tab" aria-selected="false" data-p="p2">Operatör görüşmesi</button>
+<button role="tab" aria-selected="false" data-p="p3">Vardiya amiri</button>
+<button role="tab" aria-selected="false" data-p="p4">Saha gözlemi</button>
+</div>
+<div class="card">
+<div class="panel on" id="p1">
+<h3>Aylık hurda oranı (%)</h3>
+<div class="bar"><span>Temmuz</span><i style="width:29%"></i><b>2,0</b></div>
+<div class="bar"><span>Ağustos</span><i style="width:32%"></i><b>2,2</b></div>
+<div class="bar"><span>Eylül</span><i class="hi" style="width:85%"></i><b>5,9</b></div>
+<div class="bar"><span>Ekim</span><i class="hi" style="width:98%"></i><b>6,8</b></div>
+<p class="mut" style="margin-bottom:0">Eylül’den itibaren yeni hat. Prim sistemi: operatörlere günlük üretilen <i>adet</i> üzerinden prim ödenir; hurda miktarı prime yansımaz. Üretim raporunda her hat durdurma, ilgili operatörün adına yazılır.</p>
+</div>
+<div class="panel" id="p2">
+<h3>5 operatörle yapılan görüşmelerden</h3>
+<p>“Ekrandaki hata kodlarının çoğunu anlamıyorum. Kod çıkınca ne yapacağımı bilmediğim için hattı olduğu gibi bırakıyorum.” (4 operatör)</p>
+<p>“Tedarikçi bir gün geldi, 2 saat slayt gösterdi. Makineye hiç dokunmadık.” (5 operatör)</p>
+<p>“Hatayı fark etsem de hattı durdurmuyorum. Durdurursam rapora adım yazılıyor, primim düşüyor.” (3 operatör)</p>
+<p style="margin-bottom:0">“Kumpasım ile kalite odasındaki kumpas aynı parçada farklı ölçüyor.” (2 operatör)</p>
+</div>
+<div class="panel" id="p3">
+<h3>Vardiya amiri Hasan Usta</h3>
+<p>“Yeni hatta kalıp ayarını tam yapabilen sadece iki kişi var, ikisi de aynı vardiyada. Diğer vardiyalarda ayar işi aksıyor.”</p>
+<p style="margin-bottom:0">“Elimizdeki iş talimatı eski hattın talimatı. Yenisini kimse yazmadı. Ölçü aletlerinin kalibrasyonu da yaklaşık beş aydır yapılmadı.”</p>
+</div>
+<div class="panel" id="p4">
+<h3>Sahada yapılan gözlem notları</h3>
+<p>Kalite kontrol istasyonu hattan yaklaşık 40 metre uzakta; hatalı parçalar kontrol edilene kadar üretim devam ediyor. Hat çevresindeki aydınlatma yetersiz ve yüzey çiziklerini görmek zorlaşıyor.</p>
+<p style="margin-bottom:0">Operatörler yeni hattın hızına ve otomasyonuna karşı genel olarak istekli; deneyimli operatörler yeni makineyi öğrenmek istediklerini söylüyor.</p>
+</div>
+</div>
+</section>
+
+<section>
+<h2>Bölüm 2 · Bireysel çalışma</h2>
+<h3 style="font-size:20px">Adım 1: Bulguları sınıflandırın</h3>
+<p>Her bulgunun performans boşluğunun hangi nedenine işaret ettiğini seçin.</p>
+<div class="card" id="findings"></div>
+<button class="main" id="check">Cevaplarımı kontrol et</button>
+<div class="res" id="score" role="status"></div>
+
+<h3 style="font-size:20px;margin-top:36px">Adım 2: Karar verin</h3>
+<p>Selim Bey’in talebine İK uzmanı olarak nasıl yanıt verirsiniz?</p>
+<div id="decision"></div>
+<div class="res" id="dres" role="status"></div>
+</section>
+
+<section>
+<h2>Bölüm 3 · Grup tartışması</h2>
+<p>4–5 kişilik gruplar oluşturun ve rolleri paylaşın. Önce bireysel yanıtlarınızı karşılaştırın; farklı düşündüğünüz yerlerde gerekçelerinizi açıklayın.</p>
+<div class="card">
+<div class="role"><b>Sözcü</b><span>Grubun ortak sonucunu sınıfa sunar.</span></div>
+<div class="role"><b>Zaman tutucu</b><span>Her soru için yaklaşık 6 dakika ayırır.</span></div>
+<div class="role"><b>Şüpheci</b><span>Grubun görüşüne “Peki ya kanıtı?” diye itiraz eder.</span></div>
+<div class="role"><b>Not alan</b><span>Ortak kararları ve açıkta kalan soruları yazar.</span></div>
+</div>
+<ol class="q">
+<li>Sekiz bulgudan hangisi eğitimle çözülür, hangisi çözülmez? Bunu Selim Bey’e hangi kanıtlarla anlatırsınız?</li>
+<li>Yalnızca eğitim verilirse bir ay sonra hurda oranı ne olur? Neden?</li>
+<li>Eğitim dışı çözümleri (prim sistemi, talimat, kalibrasyon, istasyon yeri) hangi sırayla ele alırsınız ve bunların sahibi kimdir?</li>
+<li>Eğitim ihtiyaç analizini tamamlamak için hangi ek veriye ihtiyacınız var? Bu veriyi kimden, hangi yöntemle toplarsınız?</li>
+<li>Eğitim gerekli çıkarsa, ADDIE’nin sonraki aşamasına (Tasarım) geçerken analiz çıktılarınızdan neleri taşırsınız? (Hedef kitle, performans hedefi, kısıtlar…)</li>
+</ol>
+<label for="notes" class="mut">Grup kararlarınız için not alanı (sayfada saklanmaz)</label>
+<textarea id="notes" rows="5" placeholder="Grubumuzun ortak kararları…"></textarea>
+</section>
+
+<section>
+<h2>Bölüm 4 · Kapanış</h2>
+<div class="card">
+<p style="margin-top:0">Çıkmadan önce tek cümleyle yanıtlayın:</p>
+<p style="margin-bottom:0"><b>“Bir yöneticinin ‘eğitim verelim’ talebi geldiğinde, ilk sorduğum soru şu olur: …”</b></p>
+</div>
+<p class="mut">Bu olay kurgusaldır; kişi ve firma adları gerçek değildir.</p>
+</section>
+</main>
+
+<script>
+(function(){
+var F=[
+["Operatörlerin çoğu yeni hattın ekranındaki hata kodlarını yorumlayamıyor.","b","Operatörün ne yapacağını bilmemesi bir bilgi/beceri boşluğudur; eğitimle giderilir."],
+["Prim yalnızca adede göre ödeniyor; hurda primi etkilemiyor.","t","Ödül sistemi hızı ödüllendirip kaliteyi görmezden geliyor. Bu bir teşvik sorunudur ve eğitim bunu düzeltmez."],
+["Ölçü aletlerinin kalibrasyonu yaklaşık beş aydır yapılmadı.","a","Aracın hatalı olması bir araç/ekipman sorunudur. Operatörü eğitmek aleti düzeltmez."],
+["İş talimatı eski hatta ait; yeni hat için talimat yazılmadı.","a","Eksik iş talimatı bir süreç/dokümantasyon sorunudur. Yönetim çözmelidir."],
+["Kalıp ayarını yalnızca iki kişi yapabiliyor, ikisi de aynı vardiyada.","b","Beceri belirli kişilerde toplanmış; diğer vardiyalar için bir beceri boşluğu var."],
+["Operatörler hata fark etseler de hattı durdurmaktan çekiniyor; durdurma kişiye yazılıyor.","t","Cezalandırıcı raporlama davranışı caydırıyor. Bu bir teşvik/kültür sorunudur."],
+["Kalite kontrol istasyonu hattan 40 m uzakta; aydınlatma yetersiz.","a","Fiziksel düzen ve ortam sorunudur; operatör eğitimiyle değil, iş yeri düzenlemesiyle çözülür."],
+["Tedarikçi eğitimi yalnızca 2 saat sürdü ve uygulamalı değildi.","b","Eğitim verilmiş ama yetersiz kalmış; uygulamalı bir beceri eğitimi eksik."]
+];
+var C={b:"Bilgi / beceri",t:"Teşvik / motivasyon",a:"Araç, süreç, ortam"};
+var box=document.getElementById("findings");
+F.forEach(function(f,i){
+var d=document.createElement("div");d.className="f";
+d.innerHTML='<div id="ft'+i+'">'+(i+1)+'. '+f[0]+'</div><select aria-labelledby="ft'+i+'" id="s'+i+'"><option value="">Seçin…</option><option value="b">'+C.b+'</option><option value="t">'+C.t+'</option><option value="a">'+C.a+'</option></select><div class="fb" id="fb'+i+'"></div>';
+box.appendChild(d);
+});
+document.getElementById("check").onclick=function(){
+var ok=0,empty=0;
+F.forEach(function(f,i){
+var v=document.getElementById("s"+i).value,fb=document.getElementById("fb"+i);
+if(!v){empty++;fb.className="fb";return}
+if(v===f[1]){ok++;fb.className="fb ok";fb.textContent="Doğru. "+f[2]}
+else{fb.className="fb bad";fb.textContent="Tekrar düşünün: Bu bulgu “"+C[f[1]]+"” kategorisine daha yakın. "+f[2]}
+});
+var s=document.getElementById("score");s.style.display="block";
+if(empty){s.style.background="var(--badbg)";s.style.color="var(--bad)";s.textContent="Önce tüm bulguları sınıflandırın ("+empty+" bulgu boş)."}
+else{s.style.background="var(--okbg)";s.style.color="var(--ok)";
+s.textContent=ok+"/"+F.length+" doğru. Eğitimle çözülebilecek bulgu sayısı: 3. Kalan 5 bulgu eğitim dışı çözüm gerektiriyor."}
+};
+var D=[
+["Eğitim programını hemen tasarlarım; müdür zaten bütçeyi ayırdı.","bad","Analiz yapmadan çözüme atlamak, bütçeyi yanlış sorunun çözümüne harcama riskidir. Bulgulara göre sorunun büyük kısmı eğitim dışı nedenlerden kaynaklanıyor."],
+["Önce eğitim ihtiyaç analizini tamamlarım; eğitimi yalnızca bilgi/beceri boşluğu olan kısım için tasarlar, diğer nedenleri ilgili yöneticilere iletirim.","ok","En doğru yaklaşım. ADDIE’nin ilk aşaması, performans boşluğunun nedenini bulur ve eğitimin gerçekten çözüm olup olmadığına karar verir. Eğitim bu olayda çözümün bir parçası, tamamı değil."],
+["Operatörleri yetersiz bulur, daha becerikli kişilerle değiştirmeyi öneririm.","bad","Kanıtlar sorunun kişilerden çok sistemden (prim, talimat, alet, düzen) kaynaklandığını gösteriyor. Aynı kişiler eski hatta başarılıydı."]
+];
+var dv=document.getElementById("decision"),dr=document.getElementById("dres");
+D.forEach(function(o,i){
+var l=document.createElement("label");l.className="opt";
+l.innerHTML='<input type="radio" name="dec" value="'+i+'"> '+o[0];
+l.querySelector("input").onchange=function(){
+dr.style.display="block";
+dr.style.background=o[1]==="ok"?"var(--okbg)":"var(--badbg)";
+dr.style.color=o[1]==="ok"?"var(--ok)":"var(--bad)";
+dr.textContent=o[2];
+};
+dv.appendChild(l);
+});
+var tabs=document.querySelectorAll(".tabs button");
+tabs.forEach(function(b){b.onclick=function(){
+tabs.forEach(function(x){x.setAttribute("aria-selected",x===b)});
+document.querySelectorAll(".panel").forEach(function(p){p.classList.toggle("on",p.id===b.dataset.p)});
+}});
+})();
+</script>
+</body>
+</html>
