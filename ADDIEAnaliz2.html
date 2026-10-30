@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Örnek Olay: NovaMart Omni-Channel Dönüşüm Krizi | ADDIE İhtiyaç Analizi</title>
+    <style>
+        :root {
+            --primary: #1e3a8a;
+            --primary-dark: #0f172a;
+            --secondary: #0284c7;
+            --accent: #d97706;
+            --bg-light: #f8fafc;
+            --surface: #ffffff;
+            --border: #e2e8f0;
+            --text-main: #334155;
+            --text-dark: #0f172a;
+            --danger: #b91c1c;
+            --success: #15803d;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: var(--bg-light);
+            color: var(--text-main);
+            line-height: 1.65;
+            padding: 24px;
+        }
+
+        .container {
+            max-width: 960px;
+            margin: 0 auto;
+            background: var(--surface);
+            border-radius: 12px;
+            box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.08);
+            overflow: hidden;
+            border: 1px solid var(--border);
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 100%);
+            color: #ffffff;
+            padding: 36px 32px;
+            border-bottom: 4px solid var(--accent);
+        }
+
+        .header-meta {
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: #93c5fd;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        h1 {
+            font-size: 2rem;
+            line-height: 1.25;
+            margin-bottom: 12px;
+            font-weight: 700;
+        }
+
+        .subtitle {
+            font-size: 1.05rem;
+            color: #cbd5e1;
+            font-weight: 400;
+        }
+
+        main {
+            padding: 36px 32px;
+        }
+
+        section {
+            margin-bottom: 36px;
+        }
+
+        h2 {
+            font-size: 1.35rem;
+            color: var(--text-dark);
+            border-left: 4px solid var(--primary);
+            padding-left: 12px;
+            margin-bottom: 16px;
+            font-weight: 600;
+        }
+
+        h3 {
+            font-size: 1.1rem;
+            color: var(--text-dark);
+            margin: 16px 0 8px 0;
+            font-weight: 600;
+        }
+
+        p {
+            margin-bottom: 14px;
+        }
+
+        .callout-box {
+            background-color: #eff6ff;
+            border: 1px solid #bfdbfe;
+            border-radius: 8px;
+            padding: 18px 20px;
+            margin-bottom: 24px;
+        }
+
+        .callout-box strong {
+            color: var(--primary);
+        }
+
+        .kpi-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 16px;
+            margin: 20px 0;
+        }
+
+        .kpi-card {
+            background: #ffffff;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 16px;
+            text-align: center;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+
+        .kpi-value {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: var(--danger);
+            margin-bottom: 4px;
+        }
+
+        .kpi-label {
+            font-size: 0.85rem;
+            color: #64748b;
+            font-weight: 500;
+        }
+
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 0.95rem;
+        }
+
+        .data-table th, .data-table td {
+            padding: 12px 14px;
+            border: 1px solid var(--border);
+            text-align: left;
+        }
+
+        .data-table th {
+            background-color: #f1f5f9;
+            color: var(--text-dark);
+            font-weight: 600;
+        }
+
+        .data-table tr:nth-child(even) {
+            background-color: #f8fafc;
+        }
+
+        .tasks-box {
+            background: #fffbeb;
+            border: 2px solid #fde68a;
+            border-radius: 8px;
+            padding: 24px;
+            margin-top: 24px;
+        }
+
+        .tasks-box h2 {
+            border-left-color: var(--accent);
+            color: #92400e;
+        }
+
+        .task-item {
+            margin-bottom: 16px;
+        }
+
+        .task-item strong {
+            color: #78350f;
+            display: block;
+            margin-bottom: 4px;
+        }
+
+        .workspace {
+            margin-top: 32px;
+            padding: 24px;
+            background: #ffffff;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+        }
+
+        textarea {
+            width: 100%;
+            min-height: 120px;
+            border: 1px solid #cbd5e1;
+            border-radius: 6px;
+            padding: 12px;
+            font-family: inherit;
+            font-size: 0.95rem;
+            margin-top: 8px;
+            resize: vertical;
+        }
+
+        textarea:focus {
+            outline: none;
+            border-color: var(--secondary);
+            box-shadow: 0 0 0 2px rgba(2, 132, 199, 0.2);
+        }
+
+        .action-bar {
+            margin-top: 20px;
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+        }
+
+        .btn {
+            background: var(--primary);
+            color: #ffffff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            font-size: 0.95rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .btn:hover {
+            background: #1d4ed8;
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: var(--text-dark);
+            border: 1px solid #cbd5e1;
+        }
+
+        .btn-outline:hover {
+            background: #f1f5f9;
+        }
+
+        @media print {
+            body {
+                background: #ffffff;
+                padding: 0;
+            }
+            .container {
+                box-shadow: none;
+                border: none;
+            }
+            .action-bar, textarea {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <div class="header-meta">ADÜ SBE • İnsan Kaynakları Yönetimi Yüksek Lisans Programı</div>
+        <h1>Eğitim ve Geliştirme: ADDIE Modelinde İhtiyaç Analizi</h1>
+        <div class="subtitle">Örnek Olay: NovaMart Perakende'de Omni-Channel Dönüşümü ve Performans Krizi</div>
+    </header>
+
+    <main>
+        <div class="callout-box">
+            <strong>Giriş ve Yönerge:</strong> Bu vaka, ADDIE modelinin ilk ve en kritik evresi olan <em>Analysis (Analiz / İhtiyaç Değerlendirme)</em> aşamasını pekiştirmek üzere kurgulanmıştır. Amacınız, sahada ortaya çıkan performans açığının ne kadarının gerçek bir eğitim ihtiyacı, ne kadarının ise sistemsel/organizasyonel engellerden kaynaklandığını bilimsel modeller ışığında ayrıştırmaktır.
+        </div>
+
+        <section>
+            <h2>1. Şirket Arka Planı ve Dönüşüm Kararı</h2>
+            <p>
+                <strong>NovaMart</strong>, Türkiye genelinde 62 ilde 240 mağazası ve 4.500 saha çalışanı bulunan köklü bir perakende zinciridir. Şirket, e-ticaret rekabetine yanıt vermek adına son 8 ayda <em>"Omni-Channel Entegrasyonu"</em> hamlesi başlatmıştır. Bu strateji kapsamında hayata geçirilen en önemli uygulama <strong>"Tıkla & Mağazadan Al" (BOPIS - Buy Online, Pick-up In Store)</strong> ve <strong>"Mağazadan Hızlı İade/Değişim"</strong> süreçleridir.
+            </p>
+            <p>
+                Üst yönetim, müşterilerin web sitesinden veya mobil uygulamadan sipariş ettikleri ürünleri mağaza içi özel teslim noktalarından en geç 2 dakika içinde teslim alabilmelerini ve online alınan ürünlerin herhangi bir kasadan sorgusuz iade edilebilmesini hedeflemiştir.
+            </p>
+        </section>
+
+        <section>
+            <h2>2. Ortaya Çıkan Kriz ve Yönetimin Teşhisi</h2>
+            <p>
+                Uygulamanın 3. ayında yapılan çeyrek dönem değerlendirmesinde genel müdürlük tablosu alarm vermiştir:
+            </p>
+
+            <div class="kpi-grid">
+                <div class="kpi-card">
+                    <div class="kpi-value">%28</div>
+                    <div class="kpi-label">Müşteri Memnuniyeti (CSAT) Düşüşü</div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-value">7.4 dk</div>
+                    <div class="kpi-label">Ortalama Teslimat Süresi (Hedef: 2 dk)</div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-value">%34</div>
+                    <div class="kpi-label">Kasa Önü İade Reddi/Gecikmesi Oranı</div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-value">%19</div>
+                    <div class="kpi-label">Mağaza Satış Personeli Turn-over Artışı</div>
+                </div>
+            </div>
+
+            <p>
+                Genel Müdür Satıştan Sorumlu Yardımcısı, İK Direktörlüğü'ne şu talimatı göndermiştir:
+            </p>
+            <blockquote style="border-left: 3px solid var(--accent); padding-left: 14px; font-style: italic; color: #475569; margin: 16px 0;">
+                "Mağazalardaki kasiyerler ve satış danışmanları yeni sistemi öğrenmemekte direniyor. Müşteriyi mağaza içinde bekletiyor, online iadeleri kasalarda kabul etmeyip insanları müşteri hizmetlerine yönlendiriyorlar. Tüm saha personeline acilen 2 günlük zorunlu 'Müşteri Odaklılık, Empati ve Omni-Channel İletişim Eğitimi' organize edilsin."
+            </blockquote>
+        </section>
+
+        <section>
+            <h2>3. İK Analistinin Saha İncelemesi ve Toplanan Veriler</h2>
+            <p>
+                İhtiyaç analizi yapmadan doğrudan eğitime bütçe ayırmak istemeyen İK Analisti, 12 pilot mağazada yerinde gözlem yapmış, kasa çalışanlarıyla odak grup görüşmeleri yürütmüş ve sistem loglarını incelemiştir:
+            </p>
+
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>İnceleme Alanı</th>
+                        <th>Bulgu ve Gerçek Saha Durumu</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>POS & ERP Altyapısı</strong></td>
+                        <td>Online siparişleri doğrulayan el terminalleri (PDA) günde ortalama 3-4 kez senkronizasyon kopması yaşamakta; ürün mağazada olmasına rağmen sistemde "stok yok" veya "onay bekliyor" görünmektedir.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Prim ve Prim Dağılımı</strong></td>
+                        <td>Kasa ve reyon çalışanlarının prim sistemi sadece "fiziksel mağazadan kesilen fiş tutarına" endekslidir. Online teslimat veya iade işlemleri çalışanın prim hanesine +0 puan olarak yansımakta, aksine vakit kaybettirdiği için reyon kotalarını düşürmektedir.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>İş Yükü ve Görev Tanımı</strong></td>
+                        <td>"Tıkla & Al" için ayrı bir personel atanmamıştır. Reyondaki çalışan hem raftaki müşteriye satış yapmak hem de arka depodan gelen online teslimat paketini bulup teslim etmekle yükümlüdür.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Bilgi & Beceri Düzeyi</strong></td>
+                        <td>Yeni POS ekranındaki iade modülü 14 adımdan oluşmakta ve sistem hata kodu verdiğinde çalışana açıklama sunmamaktadır. Çalışanların %65'i sisteme girilen iade kodunun iptal adımlarını bilmemektedir.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section class="tasks-box">
+            <h2>Öğrenci Görevi ve Tartışma Soruları</h2>
+            <p style="font-size: 0.95rem; margin-bottom: 18px;">
+                Aşağıdaki soruları ADDIE modelinin <strong>Analiz</strong> evresi çerçevesinde yanıtlayınız.
+            </p>
+
+            <div class="task-item">
+                <strong>Soru 1: Performans Boşluğunun Teşhisi (Mager & Pipe Modeli)</strong>
+                <p>Genel Müdür Yardımcısının talep ettiği "Müşteri Odaklılık ve İletişim Eğitimi" sizce doğru bir müdahale midir? Mager & Pipe yaklaşımına göre sorunun ne kadarı "beceri/bilgi eksikliği" (can't do), ne kadarı "motivasyon, ödül ve sistemik engel" (won't do / obstacle) kaynaklıdır?</p>
+            </div>
+
+            <div class="task-item">
+                <strong>Soru 2: McGhee & Thayer 3 Düzeyli İhtiyaç Analizi Matrisi</strong>
+                <p>Bu vaka için Organizasyonel Analiz, İş/Görev Analizi ve Bireysel Analiz adımlarını ayrıştırınız. Her seviyede hangi somut aksiyonun alınması gerektiğini belirtiniz.</p>
+            </div>
+
+            <div class="task-item">
+                <strong>Soru 3: İK Yöneticisi Olarak Karşı Teklifiniz</strong>
+                <p>Üst yönetime sunulmak üzere; yalnızca eğitimden ibaret olmayan, süreci ve çalışan motivasyonunu da kapsayan entegre bir müdahale planı (Action Plan) taslağı oluşturunuz.</p>
+            </div>
+        </section>
+
+        <section class="workspace">
+            <h2>Öğrenci Çalışma Alanı (Cevap Taslağı)</h2>
+            <p style="font-size: 0.85rem; color: #64748b;">Notlarınızı bu alana girebilir, sayfanın altındaki butonla doğrudan tarayıcınızdan yazdırabilir veya PDF olarak kaydedebilirsiniz.</p>
+            
+            <label for="ans1" style="font-weight: 600; font-size: 0.9rem; display: block; margin-top: 12px;">Soru 1 Yanıtı:</label>
+            <textarea id="ans1" placeholder="Mager-Pipe analizi doğrultusunda performans boşluğunun kök nedenlerini buraya yazınız..."></textarea>
+
+            <label for="ans2" style="font-weight: 600; font-size: 0.9rem; display: block; margin-top: 12px;">Soru 2 Yanıtı:</label>
+            <textarea id="ans2" placeholder="Organizasyonel, İş/Görev ve Kişisel düzeydeki bulgularınızı ve çözüm önerilerinizi buraya listeleyiniz..."></textarea>
+
+            <label for="ans3" style="font-weight: 600; font-size: 0.9rem; display: block; margin-top: 12px;">Soru 3 Yanıtı:</label>
+            <textarea id="ans3" placeholder="Yönetime sunulacak entegre İK ve operasyonel aksiyon planını buraya özetleyiniz..."></textarea>
+
+            <div class="action-bar">
+                <button class="btn btn-outline" onclick="window.print()">Cevapları Yazdır / PDF Kaydet</button>
+                <button class="btn" onclick="alert('Notlarınız tarayıcı oturumunuzda tutulmaktadır. Sayfayı yazdırarak veya PDF çıktısı alarak ders sorumlunuza iletebilirsiniz.')">Cevapları Onayla</button>
+            </div>
+        </section>
+    </main>
+</div>
+
+</body>
+</html>
