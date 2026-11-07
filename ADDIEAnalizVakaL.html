@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Vaka: Akasya Hastanesi’nde “Barkod Okutmuyoruz” Sorunu</title>
+<style>
+:root{
+  --bg:#f4f7f7; --paper:#ffffff; --ink:#15262b; --muted:#53666b;
+  --accent:#0d6a6e; --line:#cfdcde; --head:#e3eeef; --note:#fff5cf; --note-line:#e5cf80;
+  --quote:#eaf3f3;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --bg:#0f1a1d; --paper:#162428; --ink:#e6eeef; --muted:#9db0b4;
+    --accent:#5cc3c7; --line:#2b3f44; --head:#1f3237; --note:#3a3318; --note-line:#7a6a2a;
+    --quote:#1b2d31;
+  }
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;scroll-padding-top:env(safe-area-inset-top,0px)}
+body{
+  margin:0; background:var(--bg); color:var(--ink);
+  font:17px/1.65 Charter,"Iowan Old Style",Georgia,"Times New Roman",serif;
+  padding:env(safe-area-inset-top,0px) 0 env(safe-area-inset-bottom,0px);
+}
+main{max-width:42rem;margin:0 auto;padding:1.25rem 1rem 3rem}
+h1{font-size:1.65rem;line-height:1.25;margin:.4rem 0 .5rem}
+h2{font-size:1.3rem;line-height:1.3;margin:2.4rem 0 .6rem;padding-top:1rem;border-top:2px solid var(--accent)}
+h3{font-size:1.05rem;margin:1.6rem 0 .4rem}
+p{margin:.7rem 0}
+.sub{color:var(--muted);font-size:.95rem;margin:0 0 1rem}
+nav{display:flex;flex-wrap:wrap;gap:.5rem;margin:1rem 0 0;font:600 .9rem/1 system-ui,-apple-system,"Segoe UI",sans-serif}
+nav a{color:var(--accent);text-decoration:none;border:1px solid var(--line);background:var(--paper);padding:.6rem .8rem;border-radius:.4rem}
+a:focus-visible,button:focus-visible,textarea:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+blockquote{margin:.9rem 0;padding:.7rem .9rem;background:var(--quote);border-left:4px solid var(--accent);border-radius:0 .4rem .4rem 0}
+blockquote b{display:block;font:600 .9rem/1.3 system-ui,-apple-system,"Segoe UI",sans-serif;color:var(--accent);margin-bottom:.15rem}
+.tw{overflow-x:auto;margin:.5rem 0 1rem;border:1px solid var(--line);border-radius:.4rem;background:var(--paper)}
+table{border-collapse:collapse;width:100%;font:.9rem/1.4 system-ui,-apple-system,"Segoe UI",sans-serif}
+th,td{padding:.5rem .65rem;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+th{background:var(--head);font-weight:600}
+tr:last-child td{border-bottom:0}
+td.n,th.n{text-align:right;font-variant-numeric:tabular-nums}
+.cap{font:600 .92rem/1.4 system-ui,-apple-system,"Segoe UI",sans-serif;margin:1.2rem 0 .2rem}
+.small{font-size:.92rem;color:var(--muted)}
+ul{padding-left:1.2rem}li{margin:.35rem 0}
+.q{background:var(--paper);border:1px solid var(--line);border-radius:.5rem;padding:.9rem 1rem;margin:1rem 0}
+.q p{margin:.1rem 0 .6rem}
+.q label{display:block;font:600 .85rem/1.3 system-ui,-apple-system,"Segoe UI",sans-serif;color:var(--muted);margin-bottom:.3rem}
+textarea{width:100%;min-height:7rem;resize:vertical;font:16px/1.5 system-ui,-apple-system,"Segoe UI",sans-serif;color:var(--ink);background:var(--note);border:1px solid var(--note-line);border-radius:.4rem;padding:.6rem}
+.bar{display:flex;flex-wrap:wrap;gap:.6rem;align-items:center;margin:1rem 0;font:.9rem/1.3 system-ui,-apple-system,"Segoe UI",sans-serif}
+button{font:600 .95rem/1 system-ui,-apple-system,"Segoe UI",sans-serif;padding:.8rem 1rem;border-radius:.4rem;border:1px solid var(--accent);background:var(--accent);color:var(--paper);cursor:pointer;min-height:44px}
+button.alt{background:transparent;color:var(--accent)}
+#st{color:var(--muted)}
+footer{margin-top:2.5rem;color:var(--muted);font-size:.88rem}
+@media print{nav,.bar{display:none}textarea{border:1px solid #999;background:#fff}}
+</style>
+</head>
+<body>
+<main>
+<h1>Akasya Hastanesi’nde “Barkod Okutmuyoruz” Sorunu</h1>
+<p class="sub">İhtiyaç Analizi uygulamalı vakası. Önce vakayı ve ekleri okuyun, sonra görevdeki altı soruyu grubunuzla yanıtlayın. Not alanlarına yazdıklarınız bu cihazda kayıtlı kalır.</p>
+<nav aria-label="Bölümler">
+  <a href="#vaka">Vaka</a><a href="#veri">Ek veriler</a><a href="#gorev">Görev</a>
+</nav>
+
+<h2 id="vaka">Vaka</h2>
+<p>Akasya Hastanesi, 420 yataklı özel bir hastane. Sekiz ay önce Dahiliye ve Cerrahi kliniklerindeki dört serviste (toplam 120 yatak, 80 hemşire) <b>barkodlu ilaç uygulama sistemi</b> devreye alındı. Sistem şöyle çalışıyor: hemşire ilacı vermeden önce el terminaliyle hastanın bileklik barkodunu ve ilacın barkodunu okutuyor; sistem hasta, ilaç, doz ve saat eşleşmesini kontrol ediyor, uyuşmazlıkta uyarı veriyor. Barkod okunamazsa hemşire “manuel geçersiz kılma” ile uygulamayı yine de kaydedebiliyor.</p>
+<p>Kurulum sırasında tüm hemşirelere sınıfta 2 saatlik bir kullanım eğitimi verildi. Kurulumdan sonra işe başlayan ya da başka birimlerden gelen hemşireler için resmî bir eğitim planlanmadı; bunlar ilk haftalarda yanlarındaki deneyimli hemşireden öğrendi.</p>
+<p>İlk iki ay sistem sorunsuz görünüyordu. Sonra Kalite Birimi’nin izlediği <b>barkod okutma uyum oranı</b> (ilaç uygulamalarının barkod okutularak yapılan yüzdesi) düşmeye başladı ve sekizinci ayda %69’a indi. Aynı dönemde ilaç olayı bildirimlerinde de bir değişim görüldü (Ek 1). Dört ay sonra hastanenin akreditasyon denetimi var ve denetimde ilaç güvenliği standardı özellikle incelenecek. Ağır bir hasta zararı yaşanmadı, ancak yönetim endişeli.</p>
+<p>Siz hastanenin Eğitim ve Gelişim Birimi’nde uzmansınız. Aynı hafta içinde üç yönetici size yazdı:</p>
+<blockquote><b>Hemşirelik Hizmetleri Müdürü</b>“Hemşirelerimiz sistemi unutmuş. 80 hemşirenin tamamı için iki günlük, zorunlu bir yenileme eğitimi planlayın.”</blockquote>
+<blockquote><b>Kalite Direktörü</b>“Bu bir tutum sorunu. Eğitimin yanında barkod okutmayanlar için uyarı sürecini de başlatalım. Denetimden önce %95’e çıkmalıyız.”</blockquote>
+<blockquote><b>Bilgi İşlem Müdürü</b>“Sistem %99,5 erişilebilirlikle çalışıyor, açık arıza kaydı yok. Bu bir kullanıcı sorunu. Yeni cihaz için de bütçe yok.”</blockquote>
+<p>İnsan Kaynakları Direktörü size <b>üç hafta</b> süre verdi. Hemşire servislerine saha erişiminiz (gece vardiyası dahil, Hemşirelik Hizmetleri Müdürü’nün onayıyla) ve Kalite ile Bilgi İşlem verilerine erişim yetkiniz var. Hemşireler zaten yoğun çalışıyor; analiz hasta bakımını aksatmamalı.</p>
+
+<h2 id="veri">Ek veriler</h2>
+<h3>Ek 1 — Kalite Birimi verileri</h3>
+
+<p class="cap">1.1 Aylık barkod okutma uyum oranı (%)</p>
+<div class="tw"><table>
+<tr><th>Ay</th><th class="n">1</th><th class="n">2</th><th class="n">3</th><th class="n">4</th><th class="n">5</th><th class="n">6</th><th class="n">7</th><th class="n">8</th></tr>
+<tr><td>Uyum</td><td class="n">93</td><td class="n">90</td><td class="n">85</td><td class="n">80</td><td class="n">76</td><td class="n">73</td><td class="n">71</td><td class="n">69</td></tr>
+</table></div>
+
+<p class="cap">1.2 Vardiyaya göre uyum</p>
+<div class="tw"><table>
+<tr><th>Vardiya</th><th class="n">Uyum (%)</th><th class="n">İlaç uygulamalarındaki pay</th><th class="n">Hemşire başına hasta</th></tr>
+<tr><td>Gündüz (08.00–16.00)</td><td class="n">81</td><td class="n">%45</td><td class="n">9</td></tr>
+<tr><td>Akşam (16.00–24.00)</td><td class="n">67</td><td class="n">%30</td><td class="n">13</td></tr>
+<tr><td>Gece (24.00–08.00)</td><td class="n">48</td><td class="n">%25</td><td class="n">19</td></tr>
+</table></div>
+
+<p class="cap">1.3 Gruba göre uyum</p>
+<div class="tw"><table>
+<tr><th>Grup</th><th class="n">Hemşire</th><th class="n">Uyum (%)</th></tr>
+<tr><td>Kurulumda eğitimi alanlar</td><td class="n">56</td><td class="n">72</td></tr>
+<tr><td>Kurulumdan sonra işe başlayanlar</td><td class="n">14</td><td class="n">66</td></tr>
+<tr><td>Başka birimlerden gelen havuz/rotasyon hemşireleri</td><td class="n">10</td><td class="n">50</td></tr>
+</table></div>
+<p class="small">Not: Kurulumdan sonra katılan 24 hemşirenin 15’i akşam veya gece vardiyasında çalışıyor.</p>
+
+<p class="cap">1.4 Barkodsuz kaydedilen uygulamalarda seçilen geçersiz kılma nedeni</p>
+<p class="small">Son üç ayda yaklaşık 11.200 uygulamanın yaklaşık 3.250’si barkodsuz kaydedildi. Neden seçmek zorunlu değil.</p>
+<div class="tw"><table>
+<tr><th>Neden</th><th class="n">Oran</th></tr>
+<tr><td>Diğer / boş bırakıldı</td><td class="n">%58</td></tr>
+<tr><td>Bileklik okunmuyor</td><td class="n">%17</td></tr>
+<tr><td>İlaç barkodu okunmuyor</td><td class="n">%15</td></tr>
+<tr><td>Terminal yok ya da çalışmıyor</td><td class="n">%10</td></tr>
+</table></div>
+
+<p class="cap">1.5 İlaç olayı bildirimleri</p>
+<div class="tw"><table>
+<tr><th>Olay türü</th><th class="n">Sistem öncesi 8 ay</th><th class="n">Sistem sonrası 8 ay</th></tr>
+<tr><td>Yanlış hasta (ramak kala)</td><td class="n">6</td><td class="n">3</td></tr>
+<tr><td>Doz hatası</td><td class="n">14</td><td class="n">11</td></tr>
+<tr><td>Geciken / atlanan doz</td><td class="n">9</td><td class="n">27</td></tr>
+</table></div>
+<p class="small">Not: Bildirim gönüllüdür; Kalite Birimi eksik bildirim olabileceğini belirtiyor.</p>
+
+<h3>Ek 2 — Hemşire anketi</h3>
+<p class="small">Kalite Birimi, geçen ay. 80 hemşirenin 61’i yanıtladı. 1 = Kesinlikle katılmıyorum, 5 = Kesinlikle katılıyorum.</p>
+<div class="tw"><table>
+<tr><th>İfade</th><th class="n">Ortalama</th></tr>
+<tr><td>Sistemi nasıl kullanacağımı biliyorum.</td><td class="n">4,4</td></tr>
+<tr><td>Sistem hastalarımı daha güvenli kılıyor.</td><td class="n">4,1</td></tr>
+<tr><td>Barkod okutmak ilaç saatine yetişmemi zorlaştırıyor.</td><td class="n">4,2</td></tr>
+<tr><td>Okutma oranım hakkında düzenli geri bildirim alıyorum.</td><td class="n">1,8</td></tr>
+</table></div>
+
+<h3>Ek 3 — Kurumsal bilgiler</h3>
+<ul>
+<li>Hemşirelerin performans kartında iki gösterge var: “ilaçların planlanan saatin ±60 dakikası içinde uygulanması” ve “hasta memnuniyeti”. Barkod uyumu performans kartında yer almıyor.</li>
+<li>Kalite Birimi ilaç olaylarını aylık hata sayısı olarak raporluyor. Servis ya da hemşire bazında uyum oranı geri bildirimi verilmiyor.</li>
+<li>Kurulum eğitimi 2 saat sürdü: sunum ve 15 dakikalık uygulama. “Barkod okunmazsa ne yapılır” bölümü yaklaşık 5 dakika tuttu.</li>
+</ul>
+
+<h2 id="gorev">Göreviniz: analiz planını hazırlayın</h2>
+<p>Gruplar (4–5 kişi) Eğitim ve Gelişim Birimi ekibidir. <b>Henüz veri toplamadınız.</b> Göreviniz çözüm tasarlamak değil, ihtiyaç analizinin nasıl yürütüleceğini planlamaktır. Çıktı: <b>tek sayfalık bir analiz planı</b> ve <b>5 dakikalık sunum</b>.</p>
+
+<div class="bar">
+  <button type="button" id="copy">Tüm notlarımı kopyala</button>
+  <button type="button" id="clear" class="alt">Notları sil</button>
+  <span id="st" role="status"></span>
+</div>
+
+<div class="q"><p><b>Soru 1 — Talepler.</b> Üç yöneticinin taleplerinin her birinin ardındaki varsayımı (örtük hipotezi) yazın. Her yöneticiyle yapacağınız keşif görüşmesinde sormak istediğiniz ikişer soruyu belirtin. Taleplere nasıl yanıt verirsiniz?</p>
+<label for="n1">Notlarım</label><textarea id="n1" data-k="Soru 1"></textarea></div>
+
+<div class="q"><p><b>Soru 2 — Eğitim sorunu mu?</b> Mager ve Pipe’ın sorusunu hangi alt gruplara ayrı ayrı uygulamanız gerekir? Ek verilere dayanarak birbiriyle yarışan en az dört hipotez yazın ve her birinin eğitimle mi, eğitim dışı bir müdahaleyle mi ilgili olduğunu belirtin.</p>
+<label for="n2">Notlarım</label><textarea id="n2" data-k="Soru 2"></textarea></div>
+
+<div class="q"><p><b>Soru 3 — Ön verinin yorumu.</b> Ek 1–3 neyi gösteriyor, neyi gösteremiyor? Hangi çıkarımlar yanıltıcı olabilir? Hangi ek verilere ihtiyacınız var?</p>
+<label for="n3">Notlarım</label><textarea id="n3" data-k="Soru 3"></textarea></div>
+
+<div class="q"><p><b>Soru 4 — OTP kapsamı.</b> Organizasyon, görev ve birey düzeylerinin her biri için (a) ağırlığı (yüksek/orta/düşük), (b) cevaplayacağınız temel soruyu ve (c) varsa bilinçli olarak kapsam dışı bıraktığınız noktayı gerekçesiyle yazın.</p>
+<label for="n4">Notlarım</label><textarea id="n4" data-k="Soru 4"></textarea></div>
+
+<div class="q"><p><b>Soru 5 — Yöntem, örneklem ve etik.</b> En az üç veri toplama yöntemi seçin. Her birini hangi hipotezi sınamak için kullanacağınızı, kimlerle (kaç kişi, hangi vardiya ya da grup) ve ne zaman uygulayacağınızı belirtin. Saha çalışmasında karşılaşabileceğiniz etik ve güvenilirlik sorunlarını (gözlem, gizlilik, hemşirelerin açık konuşma isteği gibi) ve önlemlerinizi yazın.</p>
+<label for="n5">Notlarım</label><textarea id="n5" data-k="Soru 5"></textarea></div>
+
+<div class="q"><p><b>Soru 6 — Takvim, risk ve raporlama.</b> Üç haftalık bir takvim çıkarın ve en az üç riski önlemiyle yazın. Çelişen beklentileri olan üç yöneticiye bulguları nasıl sunacaksınız?</p>
+<label for="n6">Notlarım</label><textarea id="n6" data-k="Soru 6"></textarea></div>
+
+<div class="q"><p><b>Serbest notlar</b></p>
+<label for="n7">Sınıf tartışması, sorular, fikirler</label><textarea id="n7" data-k="Serbest notlar"></textarea></div>
+
+<footer>Vaka öğretim amacıyla kurgulanmıştır; gerçek bir kurumu temsil etmez. Notlarınız yalnızca bu telefonda ya da tarayıcıda saklanır; başka cihazlarda görünmez ve sayfayı yayınlayan kişi tarafından okunamaz.</footer>
+</main>
+
+<script>
+(function(){
+  var KEY="akasya-vaka-notlar-v1", boxes=document.querySelectorAll("textarea"), st=document.getElementById("st"), t;
+  var saved={};
+  try{saved=JSON.parse(localStorage.getItem(KEY)||"{}")||{};}catch(e){saved={};}
+  function say(m){st.textContent=m;clearTimeout(t);t=setTimeout(function(){st.textContent="";},2500);}
+  function persist(){
+    var o={};boxes.forEach(function(b){if(b.value)o[b.id]=b.value;});
+    try{localStorage.setItem(KEY,JSON.stringify(o));say("Kaydedildi");}
+    catch(e){say("Kaydedilemedi: tarayıcı depolamaya izin vermiyor");}
+  }
+  var d;
+  boxes.forEach(function(b){
+    if(saved[b.id])b.value=saved[b.id];
+    b.addEventListener("input",function(){clearTimeout(d);d=setTimeout(persist,500);});
+  });
+  document.getElementById("copy").addEventListener("click",function(){
+    var s="Akasya Hastanesi vakası — notlarım\n\n";
+    boxes.forEach(function(b){if(b.value.trim())s+=b.dataset.k+"\n"+b.value.trim()+"\n\n";});
+    function done(){say("Kopyalandı");}
+    function fail(){say("Kopyalanamadı; metni elle seçin");}
+    if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(s).then(done,fail);}
+    else{
+      var a=document.createElement("textarea");a.value=s;document.body.appendChild(a);a.select();
+      try{document.execCommand("copy")?done():fail();}catch(e){fail();}
+      document.body.removeChild(a);
+    }
+  });
+  document.getElementById("clear").addEventListener("click",function(){
+    if(!confirm("Tüm notlarınız silinecek. Emin misiniz?"))return;
+    boxes.forEach(function(b){b.value="";});
+    try{localStorage.removeItem(KEY);}catch(e){}
+    say("Notlar silindi");
+  });
+})();
+</script>
+</body>
+</html>
