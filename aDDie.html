@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Örnek Olay: ADDIE Tasarım ve Geliştirme Atölyesi</title>
+    <style>
+        :root {
+            --primary: #1e3a8a;
+            --primary-light: #3b82f6;
+            --bg: #f8fafc;
+            --card-bg: #ffffff;
+            --text: #1e293b;
+            --text-muted: #64748b;
+            --border: #e2e8f0;
+            --accent: #0f766e;
+            --warning: #b45309;
+            --warning-bg: #fef3c7;
+            --success: #15803d;
+            --success-bg: #dcfce7;
+        }
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            padding: 16px;
+            max-width: 760px;
+            margin: 0 auto;
+        }
+        header {
+            background: linear-gradient(135deg, var(--primary), #1d4ed8);
+            color: white;
+            padding: 24px 20px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+        }
+        header .badge {
+            display: inline-block;
+            background: rgba(255,255,255,0.2);
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+        }
+        header h1 {
+            font-size: 1.4rem;
+            line-height: 1.3;
+            margin-bottom: 8px;
+        }
+        header p {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 18px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+        .card h2 {
+            font-size: 1.15rem;
+            color: var(--primary);
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .step-num {
+            background: var(--primary);
+            color: white;
+            width: 26px;
+            height: 26px;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.85rem;
+            font-weight: bold;
+            flex-shrink: 0;
+        }
+        .vaka-box {
+            background: #f1f5f9;
+            border-left: 4px solid var(--primary-light);
+            padding: 14px;
+            border-radius: 0 8px 8px 0;
+            margin-bottom: 12px;
+            font-size: 0.95rem;
+        }
+        .vaka-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 10px;
+            margin-top: 12px;
+        }
+        @media (min-width: 600px) {
+            .vaka-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+        .vaka-item {
+            background: #fff;
+            border: 1px solid var(--border);
+            padding: 10px 12px;
+            border-radius: 8px;
+            font-size: 0.88rem;
+        }
+        .vaka-item strong {
+            color: var(--primary);
+            display: block;
+            margin-bottom: 2px;
+        }
+        .question-label {
+            font-weight: 600;
+            margin-bottom: 8px;
+            display: block;
+            font-size: 0.95rem;
+        }
+        .hint {
+            font-size: 0.83rem;
+            color: var(--text-muted);
+            margin-bottom: 10px;
+            display: block;
+        }
+        textarea, input[type="text"], select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            margin-bottom: 12px;
+            transition: border-color 0.2s;
+        }
+        textarea:focus, input[type="text"]:focus, select:focus {
+            outline: none;
+            border-color: var(--primary-light);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+        }
+        .radio-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-bottom: 12px;
+        }
+        .radio-option {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            padding: 12px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.92rem;
+            transition: background 0.15s;
+        }
+        .radio-option:hover {
+            background: #f8fafc;
+        }
+        .radio-option input {
+            margin-top: 4px;
+            accent-color: var(--primary);
+            transform: scale(1.1);
+        }
+        .btn {
+            display: inline-block;
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 12px 18px;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            text-align: center;
+            transition: background 0.2s;
+        }
+        .btn:hover {
+            background: #1e40af;
+        }
+        .btn-outline {
+            background: transparent;
+            color: var(--primary);
+            border: 1.5px solid var(--primary);
+            margin-top: 8px;
+        }
+        .btn-outline:hover {
+            background: #eff6ff;
+        }
+        .feedback {
+            display: none;
+            margin-top: 12px;
+            padding: 14px;
+            border-radius: 8px;
+            font-size: 0.9rem;
+        }
+        .feedback.show {
+            display: block;
+        }
+        .feedback.info {
+            background: #eff6ff;
+            border-left: 4px solid var(--primary-light);
+            color: #1e3a8a;
+        }
+        .feedback.warning {
+            background: var(--warning-bg);
+            border-left: 4px solid var(--warning);
+            color: #78350f;
+        }
+        .feedback.success {
+            background: var(--success-bg);
+            border-left: 4px solid var(--success);
+            color: #14532d;
+        }
+        .storyboard-row {
+            background: #f8fafc;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 12px;
+            margin-bottom: 10px;
+        }
+        .storyboard-row label {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--primary);
+            display: block;
+            margin-bottom: 4px;
+        }
+        .summary-output {
+            white-space: pre-wrap;
+            background: #1e293b;
+            color: #f8fafc;
+            padding: 16px;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            margin-top: 12px;
+            display: none;
+        }
+        .student-meta {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 10px;
+        }
+        @media (min-width: 500px) {
+            .student-meta {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="badge">Örgütlerde Öğrenme ve Gelişim • YL Atölyesi</div>
+    <h1>ADDIE: Tasarım ve Geliştirme (2D) Örnek Olayı</h1>
+    <p>İhtiyaç analizinden somut öğretim planına ve materyal üretimine geçiş uygulaması</p>
+</header>
+
+<div class="card">
+    <h2>Katılımcı / Grup Bilgisi</h2>
+    <div class="student-meta">
+        <div>
+            <label class="question-label" for="studentName">Ad Soyad / Grup Üyeleri</label>
+            <input type="text" id="studentName" placeholder="Örn: Ayşe Yılmaz - Mehmet Kaya">
+        </div>
+        <div>
+            <label class="question-label" for="groupNo">Grup No (Varsa)</label>
+            <input type="text" id="groupNo" placeholder="Örn: Grup 3">
+        </div>
+    </div>
+</div>
+
+<div class="card">
+    <h2>📋 Vaka: Anadolu Lojistik'te "Zor Müşteri ve İtiraz Yönetimi"</h2>
+    <div class="vaka-box">
+        <strong>Arka Plan:</strong> Geçen ay tamamlanan Eğitim İhtiyaç Analizi (A) raporu İK Direktörü'nün masasına geldi. Rapora göre, müşteri hizmetleri departmanındaki <strong>18 müşteri temsilcisi</strong>, geciken teslimatlar nedeniyle arayan öfkeli müşterileri sakinleştirmekte ve çözüm sunmakta yetersiz kalıyor. Müşteri memnuniyet puanları son çeyrekte %18 düştü ve çağrıların %35'i çözülmeden üst yönetime (eskale) aktarılıyor.
+    </div>
+    <p style="font-size: 0.92rem; margin-bottom: 8px;">İhtiyaç analizi raporundan tasarım masanıza devredilen <strong>4 temel veri</strong> şunlardır:</p>
+    <div class="vaka-grid">
+        <div class="vaka-item">
+            <strong>1. Hedef Kitle</strong>
+            18 müşteri temsilcisi (6 ay–2 yıl kıdemli, ürün bilgisi tam ancak stres altında iletişim becerisi zayıf).
+        </div>
+        <div class="vaka-item">
+            <strong>2. Performans Açığı</strong>
+            Öfkeli müşteriyi dinlemeden savunmaya geçiyorlar; empati kurma, aktif dinleme ve alternatif çözüm sunma adımlarını uygulayamıyorlar.
+        </div>
+        <div class="vaka-item">
+            <strong>3. Kapsam ve Öncelik</strong>
+            Acil müdahale gerektiren tek, odaklı bir beceri eğitimi (geniş bir oryantasyon programı değil).
+        </div>
+        <div class="vaka-item">
+            <strong>4. Kısıtlar</strong>
+            Operasyon yoğunluğu nedeniyle temsilciler vardiyadan en fazla <strong>3 saat (180 dk)</strong> ayrılabiliyor. Harici bütçe kısıtlı; iç kaynaklar kullanılacak.
+        </div>
+    </div>
+</div>
+
+<!-- SORU 1 -->
+<div class="card">
+    <h2><span class="step-num">1</span> Mager Modeli ile Ana Öğrenme Hedefi Yazma</h2>
+    <span class="question-label">Bu eğitim için Mager'ın (1997) üç bileşenini (Koşul – Davranış – Ölçüt) içeren ve Bloom taksonomisine uygun bir ANA ÖĞRENME HEDEFİ yazınız.</span>
+    <span class="hint">İpucu: İhtiyaç bir bilgi açığı değil, beceri açığıdır. "Bilecek/anlayacak" gibi fiillerden kaçının.</span>
+    <textarea id="q1" rows="4" placeholder="Katılımcı, (koşul) ... ortamında/aracıyla, (davranış) ... yapabilecektir; (ölçüt) ... standartını karşılayarak."></textarea>
+    <button type="button" class="btn btn-outline" onclick="toggleFeedback('fb1')">Kendini Kontrol Et (İpucu & Kriterler)</button>
+    <div id="fb1" class="feedback info">
+        <strong>Kontrol Kriterleri:</strong> Yazdığınız hedefte şu 3 unsur net mi?<br>
+        • <strong>Koşul:</strong> Örn. "10 dakikalık canlandırılmış bir öfkeli müşteri çağrısında, çağrı takip formu elindeyken..."<br>
+        • <strong>Davranış (Bloom Uygulama/Analiz):</strong> "...aktif dinleme, empati cümlesi kurma ve alternatif çözüm sunma adımlarını sırasıyla <em>uygulayabilecektir</em>..."<br>
+        • <strong>Ölçüt:</strong> "...gözlemci değerlendirme formundan en az 85/100 puan alarak."
+    </div>
+</div>
+
+<!-- SORU 2 -->
+<div class="card">
+    <h2><span class="step-num">2</span> Öğretim Stratejisi ve Yöntem Seçimi</h2>
+    <span class="question-label">İK Direktörü, "Temsilcileri vardiyadan çekmek zor; 3 saatlik sunum hazırlayalım, uzmanımız tüm iletişim kurallarını slaytlarla anlatsın" önerisinde bulundu. Bu öneriyi tasarım ilkeleri açısından değerlendiriniz:</span>
+    <div class="radio-group" id="q2-group">
+        <label class="radio-option">
+            <input type="radio" name="q2" value="A">
+            <span><strong>A)</strong> Doğru bir yaklaşımdır; 3 saat kısa bir süredir, zaman kaybetmemek için yoğun sunumla tüm bilgi aktarılmalıdır.</span>
+        </label>
+        <label class="radio-option">
+            <input type="radio" name="q2" value="B">
+            <span><strong>B)</strong> Yanlıştır; beceri açıkları yalnızca sunumla giderilemez. Sürenin en az yarısı rol yapma (role-play) ve geri bildirimli pratiğe ayrılmalıdır.</span>
+        </label>
+        <label class="radio-option">
+            <input type="radio" name="q2" value="C">
+            <span><strong>C)</strong> Kısmen doğrudur; sunum yerine sadece okuma kitapçığı dağıtılıp vardiya sonunda çoktan seçmeli sınav yapılmalıdır.</span>
+        </label>
+    </div>
+    <textarea id="q2_reason" rows="2" placeholder="Seçiminizin gerekçesini kısaca yazınız (Havuz kenarında yüzme dersi benzetmesini hatırlayın)..."></textarea>
+    <button type="button" class="btn btn-outline" onclick="checkQ2()">Yanıtı Kontrol Et</button>
+    <div id="fb2" class="feedback"></div>
+</div>
+
+<!-- SORU 3 -->
+<div class="card">
+    <h2><span class="step-num">3</span> Tersine Tasarım (Backward Design) ve Değerlendirme</h2>
+    <span class="question-label">Eğitimin sonunda temsilcilerin bu beceriyi gerçekten kazanıp kazanmadığını (Kirkpatrick Düzey 2 - Öğrenme) nasıl ölçersiniz? İçeriği hazırlamadan önce nasıl bir değerlendirme aracı tasarlarsınız?</span>
+    <span class="hint">İpucu: Çoktan seçmeli test bu vaka için yeterli midir? Neden?</span>
+    <textarea id="q3" rows="3" placeholder="Değerlendirme yöntemini ve puanlama aracının içereceği 3 temel gözlem maddesini yazınız..."></textarea>
+    <button type="button" class="btn btn-outline" onclick="toggleFeedback('fb3')">Kendini Kontrol Et</button>
+    <div id="fb3" class="feedback info">
+        <strong>Değerlendirme Mantığı:</strong> Hedef "uygulama" düzeyinde olduğu için çoktan seçmeli sınav geçersizdir (teoriyi bilmek sakin kalabildiğini göstermez). Bunun yerine <strong>canlandırılmış zor müşteri görüşmesi</strong> ve yapılandırılmış bir <strong>Gözlem / Puanlama Rubriği</strong> (Örn: 1. Müşterinin sözünü kesmeden dinledi mi? 2. Savunmaya geçmeden empati kurdu mu? 3. Net bir çözüm alternatifi sundu mu?) kullanılmalıdır.
+    </div>
+</div>
+
+<!-- SORU 4 -->
+<div class="card">
+    <h2><span class="step-num">4</span> Mini Storyboard (Tasarım Belgesi) Kurgusu</h2>
+    <span class="question-label">Toplam 180 dakikalık (3 saat) eğitim için modül sürelerini ve öğretim yöntemlerini dağıtınız:</span>
+    
+    <div class="storyboard-row">
+        <label>Modül 1: Açılış ve "Neden Buradayız?" (Müşteri kaybı ve eskalasyon verileri)</label>
+        <input type="text" id="sb1" placeholder="Süre (dk) ve Yöntem (Örn: 15 dk - Kısa sunum ve grup tartışması)">
+    </div>
+    <div class="storyboard-row">
+        <label>Modül 2: Öfke Döngüsü, Empati ve Aktif Dinleme Teknikleri</label>
+        <input type="text" id="sb2" placeholder="Süre (dk) ve Yöntem...">
+    </div>
+    <div class="storyboard-row">
+        <label>Modül 3: Gerçek Çağrı Kayıtları Analizi (İyi vs. Kötü Örnekler)</label>
+        <input type="text" id="sb3" placeholder="Süre (dk) ve Yöntem...">
+    </div>
+    <div class="storyboard-row">
+        <label>Modül 4: Uygulamalı Atölye (Zor Müşteri Rol Yapma & Koçluk)</label>
+        <input type="text" id="sb4" placeholder="Süre (dk) ve Yöntem...">
+    </div>
+    <div class="storyboard-row">
+        <label>Modül 5: Kapanış, İş Yardımcısı (Job Aid) Dağıtımı ve Değerlendirme</label>
+        <input type="text" id="sb5" placeholder="Süre (dk) ve Yöntem...">
+    </div>
+</div>
+
+<!-- SORU 5 -->
+<div class="card">
+    <h2><span class="step-num">5</span> Geliştirme (Development) ve Pilot Test Riski</h2>
+    <span class="question-label">Storyboard onaylandıktan sonra geliştirme adımlarına geçtiniz. İK Direktörü "Zamanımız dar; taslak senaryoları doğrudan tüm 18 temsilciye uygulayalım, konu uzmanına (çağrı merkezi takım liderine) ve pilot teste gerek yok" dedi. Bu durumda ortaya çıkabilecek 2 somut riski yazınız:</span>
+    <textarea id="q5" rows="3" placeholder="1. Konu uzmanı (SME) incelemesi atlanırsa...&#10;2. Pilot test yapılmazsa..."></textarea>
+    <button type="button" class="btn btn-outline" onclick="toggleFeedback('fb5')">Kendini Kontrol Et</button>
+    <div id="fb5" class="feedback info">
+        <strong>Olası Riskler:</strong><br>
+        1. <strong>SME İncelemesi Eksikliği:</strong> Rol-play senaryoları gerçek çağrı merkezi dinamiklerinden uzak veya fazla kolay kalabilir; teknik terimler/sistem kuralları hatalı olabilir.<br>
+        2. <strong>Pilot Test Eksikliği:</strong> 180 dakikalık sürenin rol-play turlarına yetmediği eğitim ortasında fark edilebilir veya puanlama formunun gözlemciler tarafından anlaşılmadığı ortaya çıkabilir.
+    </div>
+</div>
+
+<!-- SONUÇ VE PAYLAŞIM -->
+<div class="card" style="border-color: var(--primary-light);">
+    <h2>📤 Yanıtları Derle ve Paylaş</h2>
+    <p style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 12px;">Tüm alanları doldurduktan sonra aşağıdaki butona basarak yanıtlarınızı tek bir metin hâline getirebilir, kopyalayıp ders platformuna/hocanıza gönderebilirsiniz.</p>
+    <button type="button" class="btn" onclick="generateSummary()">Yanıt Özeti Oluştur</button>
+    <pre id="summaryBox" class="summary-output"></pre>
+    <button type="button" id="copyBtn" class="btn btn-outline" style="display:none;" onclick="copySummary()">Metni Panoya Kopyala</button>
+</div>
+
+<script>
+    function toggleFeedback(id) {
+        const el = document.getElementById(id);
+        el.classList.toggle('show');
+    }
+
+    function checkQ2() {
+        const selected = document.querySelector('input[name="q2"]:checked');
+        const fb = document.getElementById('fb2');
+        fb.classList.add('show');
+        if (!selected) {
+            fb.className = 'feedback show warning';
+            fb.innerHTML = 'Lütfen önce A, B veya C seçeneklerinden birini işaretleyiniz.';
+            return;
+        }
+        if (selected.value === 'B') {
+            fb.className = 'feedback show success';
+            fb.innerHTML = '<strong>Doğru!</strong> Beceri hedefleri izleyerek veya slayt dinleyerek değil, yaparak ve anında geri bildirim alarak öğrenilir. Sadece sunum yapmak, havuz kenarında yüzme dersi vermeye benzer.';
+        } else {
+            fb.className = 'feedback show warning';
+            fb.innerHTML = '<strong>Tekrar Düşünün:</strong> Hedefimiz bilişsel bilgi aktarımı değil, stres altında davranışsal bir <em>beceri</em> kazandırmak. Bilgi aktarım yöntemleri (sunum, okuma, çoktan seçmeli sınav) bu hedef için yetersizdir.';
+        }
+    }
+
+    function generateSummary() {
+        const name = document.getElementById('studentName').value || 'Belirtilmedi';
+        const group = document.getElementById('groupNo').value || 'Belirtilmedi';
+        const q1 = document.getElementById('q1').value || '-';
+        const q2El = document.querySelector('input[name="q2"]:checked');
+        const q2 = q2El ? q2El.value : 'Seçilmedi';
+        const q2Reason = document.getElementById('q2_reason').value || '-';
+        const q3 = document.getElementById('q3').value || '-';
+        const sb1 = document.getElementById('sb1').value || '-';
+        const sb2 = document.getElementById('sb2').value || '-';
+        const sb3 = document.getElementById('sb3').value || '-';
+        const sb4 = document.getElementById('sb4').value || '-';
+        const sb5 = document.getElementById('sb5').value || '-';
+        const q5 = document.getElementById('q5').value || '-';
+
+        const text = `=== ADDIE 2D ÖRNEK OLAY YANITLARI ===
+Katılımcı: ${name} | Grup: ${group}
+
+1. ANA ÖĞRENME HEDEFİ (MAGER):
+${q1}
+
+2. ÖĞRETİM STRATEJİSİ SEÇİMİ:
+Seçenek: ${q2}
+Gerekçe: ${q2Reason}
+
+3. DEĞERLENDİRME TASARIMI (TERSİNE TASARIM):
+${q3}
+
+4. MİNİ STORYBOARD (180 DK):
+- Modül 1 (Açılış): ${sb1}
+- Modül 2 (Teknikler): ${sb2}
+- Modül 3 (Çağrı Analizi): ${sb3}
+- Modül 4 (Rol Yapma): ${sb4}
+- Modül 5 (Kapanış): ${sb5}
+
+5. GELİŞTİRME VE PİLOT TEST RİSKLERİ:
+${q5}`;
+
+        const box = document.getElementById('summaryBox');
+        box.textContent = text;
+        box.style.display = 'block';
+        document.getElementById('copyBtn').style.display = 'block';
+    }
+
+    function copySummary() {
+        const text = document.getElementById('summaryBox').textContent;
+        navigator.clipboard.writeText(text).then(() => {
+            const btn = document.getElementById('copyBtn');
+            btn.textContent = '✓ Kopyalandı!';
+            setTimeout(() => { btn.textContent = 'Metni Panoya Kopyala'; }, 2000);
+        });
+    }
+</script>
+
+</body>
+</html>
