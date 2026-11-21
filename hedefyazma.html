@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ADÜ İKY | Öğrenme Hedefi Yazma Atölyesi (Günlük Yaşam Örnekleri)</title>
+  <style>
+    :root {
+      --primary: #1e3a8a;
+      --primary-light: #eff6ff;
+      --teal: #0f766e;
+      --teal-light: #f0fdfa;
+      --purple: #6d28d9;
+      --purple-light: #f5f3ff;
+      --amber: #b45309;
+      --amber-light: #fffbeb;
+      --red: #dc2626;
+      --red-light: #fef2f2;
+      --bg: #f8fafc;
+      --card: #ffffff;
+      --text: #1e293b;
+      --muted: #475569;
+      --border: #cbd5e1;
+      --radius: 14px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+      line-height: 1.55;
+      padding-bottom: 48px;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    header {
+      background: linear-gradient(135deg, #1e3a8a 0%, #6d28d9 100%);
+      color: #ffffff;
+      padding: 20px 16px 24px;
+      border-bottom-left-radius: 20px;
+      border-bottom-right-radius: 20px;
+      box-shadow: 0 4px 14px rgba(30, 58, 138, 0.18);
+    }
+
+    .uni-tag {
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: #ddd6fe;
+      margin-bottom: 4px;
+    }
+
+    header h1 {
+      font-size: 1.25rem;
+      font-weight: 800;
+      line-height: 1.3;
+      margin-bottom: 6px;
+    }
+
+    header p {
+      font-size: 0.88rem;
+      color: #e2e8f0;
+    }
+
+    .container {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 16px 14px;
+    }
+
+    /* Sticky Progress Bar */
+    .status-bar {
+      position: sticky;
+      top: 8px;
+      z-index: 50;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(8px);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 8px 14px;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      box-shadow: 0 4px 12px rgba(15, 23, 42, 0.08);
+      font-size: 0.8rem;
+      font-weight: 600;
+    }
+
+    .progress-wrap {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex: 1;
+    }
+
+    .progress-track {
+      flex: 1;
+      max-width: 140px;
+      height: 8px;
+      background: #e2e8f0;
+      border-radius: 999px;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      width: 0%;
+      background: var(--purple);
+      transition: width 0.3s ease;
+    }
+
+    .save-badge {
+      color: var(--teal);
+      font-size: 0.75rem;
+    }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 16px;
+      margin-bottom: 16px;
+      box-shadow: 0 2px 6px rgba(15, 23, 42, 0.04);
+    }
+
+    .formula-card {
+      border-left: 5px solid var(--purple);
+      background: #ffffff;
+    }
+
+    .badge {
+      display: inline-block;
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      padding: 3px 9px;
+      border-radius: 6px;
+      margin-bottom: 8px;
+      letter-spacing: 0.03em;
+    }
+
+    .badge-purple { background: var(--purple-light); color: var(--purple); }
+    .badge-teal { background: var(--teal-light); color: var(--teal); }
+    .badge-blue { background: var(--primary-light); color: var(--primary); }
+    .badge-amber { background: var(--amber-light); color: var(--amber); }
+
+    .card h2 {
+      font-size: 1.06rem;
+      font-weight: 800;
+      color: var(--text);
+      margin-bottom: 8px;
+      line-height: 1.35;
+    }
+
+    .mager-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      margin: 10px 0 12px;
+    }
+
+    .mager-pill {
+      border-radius: 10px;
+      padding: 9px 8px;
+      text-align: center;
+      font-size: 0.78rem;
+    }
+
+    .pill-cond { background: var(--primary-light); border: 1px solid #bfdbfe; color: #1e3a8a; }
+    .pill-beh { background: var(--teal-light); border: 1px solid #99f6e4; color: #115e59; }
+    .pill-crit { background: var(--amber-light); border: 1px solid #fde68a; color: #92400e; }
+
+    .mager-pill strong {
+      display: block;
+      font-size: 0.85rem;
+      margin-bottom: 2px;
+    }
+
+    .example-box {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 10px;
+      padding: 11px 12px;
+      font-size: 0.88rem;
+    }
+
+    .weak-txt {
+      color: var(--red);
+      text-decoration: line-through;
+      font-size: 0.84rem;
+      display: block;
+      margin-bottom: 6px;
+    }
+
+    .strong-txt {
+      color: var(--text);
+      font-weight: 500;
+      display: block;
+    }
+
+    .hl-cond { background: #dbeafe; color: #1e3a8a; padding: 1px 4px; border-radius: 4px; font-weight: 600; }
+    .hl-beh { background: #ccfbf1; color: #115e59; padding: 1px 4px; border-radius: 4px; font-weight: 600; }
+    .hl-crit { background: #fef3c7; color: #92400e; padding: 1px 4px; border-radius: 4px; font-weight: 600; }
+
+    label {
+      display: block;
+      font-size: 0.86rem;
+      font-weight: 700;
+      margin-top: 10px;
+      margin-bottom: 4px;
+      color: var(--text);
+    }
+
+    .hint {
+      font-size: 0.8rem;
+      color: var(--muted);
+      margin-bottom: 8px;
+    }
+
+    .weak-quote {
+      background: var(--red-light);
+      border: 1px solid #fecaca;
+      color: #991b1b;
+      padding: 8px 11px;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      margin-bottom: 8px;
+    }
+
+    input[type="text"], textarea {
+      width: 100%;
+      padding: 10px 12px;
+      border: 1.5px solid var(--border);
+      border-radius: 10px;
+      font-family: inherit;
+      font-size: 0.92rem;
+      color: var(--text);
+      background: #ffffff;
+    }
+
+    input[type="text"]:focus, textarea:focus {
+      outline: none;
+      border-color: var(--purple);
+      box-shadow: 0 0 0 3px rgba(109, 40, 217, 0.12);
+    }
+
+    textarea {
+      min-height: 76px;
+      resize: vertical;
+    }
+
+    .builder-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 8px;
+      background: #f8fafc;
+      padding: 12px;
+      border-radius: 12px;
+      border: 1px solid #e2e8f0;
+    }
+
+    .builder-grid label {
+      margin-top: 2px;
+      font-size: 0.82rem;
+    }
+
+    .preview-pill {
+      margin-top: 10px;
+      background: var(--purple-light);
+      border: 1px solid #ddd6fe;
+      border-radius: 10px;
+      padding: 10px 12px;
+      font-size: 0.88rem;
+      color: #4c1d95;
+    }
+
+    .alert {
+      display: none;
+      margin-top: 8px;
+      padding: 9px 11px;
+      border-radius: 9px;
+      font-size: 0.82rem;
+      line-height: 1.45;
+    }
+
+    .alert.show { display: block; }
+    .alert-warn { background: var(--amber-light); border: 1px solid #fde68a; color: #92400e; }
+    .alert-ok { background: var(--teal-light); border: 1px solid #99f6e4; color: #115e59; }
+
+    .btn-outline {
+      margin-top: 10px;
+      background: transparent;
+      border: 1.5px dashed var(--primary);
+      color: var(--primary);
+      padding: 8px 12px;
+      border-radius: 8px;
+      font-size: 0.82rem;
+      font-weight: 700;
+      cursor: pointer;
+      width: 100%;
+    }
+
+    .expert-box {
+      display: none;
+      margin-top: 8px;
+      background: var(--primary-light);
+      border: 1px solid #bfdbfe;
+      border-radius: 10px;
+      padding: 10px 12px;
+      font-size: 0.84rem;
+      color: #1e3a8a;
+    }
+
+    .expert-box.show { display: block; }
+
+    .btn-primary {
+      width: 100%;
+      background: linear-gradient(135deg, #1e3a8a 0%, #6d28d9 100%);
+      color: #ffffff;
+      border: none;
+      padding: 14px 16px;
+      border-radius: 12px;
+      font-size: 1rem;
+      font-weight: 800;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(109, 40, 217, 0.25);
+      margin-top: 6px;
+    }
+
+    .btn-reset {
+      background: transparent;
+      border: none;
+      color: var(--muted);
+      font-size: 0.8rem;
+      text-decoration: underline;
+      cursor: pointer;
+      display: block;
+      margin: 14px auto 0;
+    }
+
+    .speech-card {
+      display: none;
+      background: #0f172a;
+      color: #f8fafc;
+      border-radius: 16px;
+      padding: 20px 18px;
+      margin-top: 16px;
+      box-shadow: 0 10px 25px rgba(15, 23, 42, 0.25);
+    }
+
+    .speech-card.show { display: block; }
+
+    .speech-header {
+      border-bottom: 1px solid #334155;
+      padding-bottom: 10px;
+      margin-bottom: 14px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .speech-title {
+      font-size: 1.02rem;
+      font-weight: 800;
+      color: #c4b5fd;
+    }
+
+    .speech-student {
+      font-size: 0.82rem;
+      background: #1e293b;
+      padding: 4px 10px;
+      border-radius: 999px;
+      color: #e2e8f0;
+    }
+
+    .speech-block {
+      margin-bottom: 12px;
+    }
+
+    .speech-block h4 {
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: #5eead4;
+      margin-bottom: 4px;
+    }
+
+    .speech-block p {
+      font-size: 0.98rem;
+      line-height: 1.5;
+      color: #f1f5f9;
+      background: #1e293b;
+      padding: 10px 12px;
+      border-radius: 10px;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="uni-tag">ADÜ İKY ABD • Örgütlerde Öğrenme ve Gelişim (YL)</div>
+    <h1>Öğrenme Hedefi Yazma Atölyesi</h1>
+    <p>Örgütsel Bağlamdan Bağımsız • Günlük Yaşam Örnekleriyle Mager & Bloom Uygulaması</p>
+  </header>
+
+  <div class="container">
+
+    <div class="status-bar">
+      <div class="progress-wrap">
+        <span>İlerleme:</span>
+        <div class="progress-track">
+          <div class="progress-fill" id="progressFill"></div>
+        </div>
+        <span id="progressText">0/4</span>
+      </div>
+      <div class="save-badge" id="saveBadge">● Otomatik Kayıt</div>
+    </div>
+
+    <!-- Öğrenci Adı -->
+    <div class="card">
+      <label for="studentName" style="margin-top:0;">Adınız Soyadınız</label>
+      <input type="text" id="studentName" placeholder="Örn: Zeynep Kaya" />
+    </div>
+
+    <!-- HIZLI FORMÜL KARTI -->
+    <div class="card formula-card">
+      <span class="badge badge-purple">Hızlı Rehber • Robert Mager Formülü</span>
+      <h2>Bir Öğrenme Hedefinin 3 Zorunlu Parçası</h2>
+      <p class="hint">İyi bir hedef cümlesinde "anlar, bilir, öğrenir, kavrar" gibi kafanın içindeki görünmez süreçler yerine <strong>dışarıdan gözlemlenebilen bir eylem</strong> yazılır.</p>
+
+      <div class="mager-grid">
+        <div class="mager-pill pill-cond">
+          <strong>1. KOŞUL</strong>
+          Hangi araçla / hangi durumda?
+        </div>
+        <div class="mager-pill pill-beh">
+          <strong>2. DAVRANIŞ</strong>
+          Tam olarak ne yapacak? (Eylem fiili)
+        </div>
+        <div class="mager-pill pill-crit">
+          <strong>3. ÖLÇÜT</strong>
+          Ne kadar hızlı / ne doğrulukta?
+        </div>
+      </div>
+
+      <div class="example-box">
+        <span class="weak-txt">❌ Zayıf Örnek: "Katılımcı araba kullanmayı öğrenir." (Ölçülemez!)</span>
+        <span class="strong-txt">
+          ✅ <strong>Güçlü Örnek:</strong> "Sürücü adayı, <span class="hl-cond">iki araç arasındaki 6 metrelik park alanında (Koşul)</span>, <span class="hl-beh">aracı kaldırıma değdirmeden paralel park edebilir (Davranış)</span> ve bu işlemi <span class="hl-crit">en fazla 2 manevrada ve 60 saniyenin altında tamamlar (Ölçüt)</span>."
+        </span>
+      </div>
+    </div>
+
+    <!-- GÖREV 1: ADIM ADIM HEDEF İNŞA EDİCİ (YEMEK YAPMA) -->
+    <div class="card">
+      <span class="badge badge-teal">Alıştırma 1 • Parçaları Birleştir (Isınma)</span>
+      <h2>Senaryo: "Menemen Yapmayı Öğrenme" Kursu</h2>
+      <div class="weak-quote">❌ <strong>Düzeltilecek Zayıf Hedef:</strong> "Kursiyer lezzetli bir menemen yapmayı bilir ve malzemeleri anlar."</div>
+      <p class="hint">Aşağıdaki 3 kutuyu doldurun; sistem cümlenizi otomatik birleştirecek:</p>
+
+      <div class="builder-grid">
+        <div>
+          <label for="bCond">1. Koşul (Hangi malzemelerle / ortamda?):</label>
+          <input type="text" id="bCond" placeholder="Örn: temel mutfak malzemeleri ve ocak verildiğinde" />
+        </div>
+        <div>
+          <label for="bBeh">2. Davranış (Hangi adımları sırayla yapacak?):</label>
+          <input type="text" id="bBeh" placeholder="Örn: domatesleri soyup pişirdikten sonra yumurtaları ekleyerek menemen hazırlayabilir" />
+        </div>
+        <div>
+          <label for="bCrit">3. Ölçüt (Süre, kıvam veya hijyen standardı ne?):</label>
+          <input type="text" id="bCrit" placeholder="Örn: 15 dakikanın altında, dibini yakmadan ve yumurtaları kurutmadan" />
+        </div>
+      </div>
+
+      <div class="preview-pill" id="liveSentence">
+        <strong>Oluşan Hedef Cümleniz:</strong> <em>Yukarıdaki kutuları doldurdukça cümleniz burada oluşacak...</em>
+      </div>
+
+      <button type="button" class="btn-outline" onclick="toggleBox('exp1')">💡 Örnek Çözümü Gör</button>
+      <div class="expert-box" id="exp1">
+        <strong>Örnek Çözüm:</strong> "Kursiyer, <em>temel mutfak malzemeleri ve ocak verildiğinde (Koşul)</em>, <em>domates ve biberleri doğrayıp sırasıyla pişirerek menemen hazırlayabilir (Davranış)</em> ve bu yemeği <em>15 dakikanın altında, dibini tutturmadan ve kıvamını koruyarak servis edebilir (Ölçüt)</em>."
+      </div>
+    </div>
+
+    <!-- GÖREV 2: KENDİN YAZ (İNGİLİZCE KONUŞMA / SUNUM) -->
+    <div class="card">
+      <span class="badge badge-blue">Alıştırma 2 • Tek Başına Yaz (Bilişsel / İletişim)</span>
+      <h2>Senaryo: "Yabancı Turiste Yol Tarifi Verme"</h2>
+      <div class="weak-quote">❌ <strong>Düzeltilecek Zayıf Hedef:</strong> "Öğrenci İngilizce yol tarifi vermeyi kavrar ve turistlerle iletişim kurar."</div>
+      <p class="hint">Şimdi 3 parçayı tek bir akıcı cümle halinde kendiniz yazınız:</p>
+
+      <textarea id="task2Input" placeholder="Örn: Öğrenci, kampüs girişinde adres soran bir turistle karşılaştığında..."></textarea>
+      <div class="alert" id="task2Warn"></div>
+
+      <button type="button" class="btn-outline" onclick="toggleBox('exp2')">💡 Örnek Çözümü Gör</button>
+      <div class="expert-box" id="exp2">
+        <strong>Örnek Çözüm:</strong> "Öğrenci, <em>şehir merkezindeki müzeyi soran yabancı bir turistle karşılaştığında (Koşul)</em>, <em>sağa-sola dönüş ve mesafe ifadelerini kullanarak İngilizce yol tarifi verebilir (Davranış)</em> ve tarifi <em>2 dakikanın altında, turistin ek açıklama istemesine gerek kalmayacak netlikte tamamlar (Ölçüt)</em>."
+      </div>
+    </div>
+
+    <!-- GÖREV 3: KENDİ ALANINDAN BİR HOBİ / GÜNLÜK BECERİ -->
+    <div class="card">
+      <span class="badge badge-amber">Alıştırma 3 • Kendi Konunu Seç!</span>
+      <h2>Senaryo: Günlük Yaşamdan Bir Beceri (Bisiklet sürme, kahve demleme, fotoğraf çekme, yüzme vb.)</h2>
+      <p class="hint">Aklınıza gelen herhangi bir günlük beceri için önce zayıf bir hedef, ardından Mager formülüne uygun güçlü bir hedef yazın:</p>
+
+      <label for="task3Weak">Zayıf (Ölçülemez) Hedef Cümlesi:</label>
+      <input type="text" id="task3Weak" placeholder="Örn: Katılımcı iyi fotoğraf çekmeyi öğrenir." />
+
+      <label for="task3Strong">Güçlü (Koşul + Davranış + Ölçüt) Hedef Cümlesi:</label>
+      <textarea id="task3Strong" placeholder="Örn: Katılımcı, gün batımında manuel ayarlı bir fotoğraf makinesi verildiğinde..."></textarea>
+      <div class="alert" id="task3Warn"></div>
+    </div>
+
+    <!-- SUNUM KARTI BUTONU -->
+    <button type="button" class="btn-primary" onclick="buildSpeechCard()">
+      🎤 Sınıfta Okumak İçin "Hedef Kartımı" Oluştur
+    </button>
+
+    <div class="speech-card" id="speechCard">
+      <div class="speech-header">
+        <span class="speech-title">📢 SÖZ SIRASI BENDE – HEDEF FORMÜLASYONLARIM</span>
+        <span class="speech-student" id="outName">Öğrenci</span>
+      </div>
+
+      <div class="speech-block">
+        <h4>1. Menemen Yapma Hedefim</h4>
+        <p id="out1"></p>
+      </div>
+
+      <div class="speech-block">
+        <h4>2. İngilizce Yol Tarifi Hedefim</h4>
+        <p id="out2"></p>
+      </div>
+
+      <div class="speech-block" style="margin-bottom:0;">
+        <h4>3. Kendi Seçtiğim Beceri Hedefim</h4>
+        <p id="out3"></p>
+      </div>
+    </div>
+
+    <button type="button" class="btn-reset" onclick="resetAll()">Formu Temizle</button>
+
+  </div>
+
+  <script>
+    const forbiddenVerbs = ["anlar", "anlamak", "bilir", "bilmek", "kavrar", "kavramak", "öğrenir", "öğrenmek", "farkında olur", "hisseder"];
+
+    function validateGoal(text, alertId) {
+      const box = document.getElementById(alertId);
+      const val = text.trim();
+      if (!val) {
+        box.className = "alert";
+        return;
+      }
+      const lower = val.toLowerCase();
+      const badFound = forbiddenVerbs.filter(v => lower.includes(v));
+      const hasDigit = /\d/.test(lower);
+
+      if (badFound.length > 0) {
+        box.className = "alert alert-warn show";
+        box.innerHTML = `⚠️ <strong>Ölçülemez Fiil Uyarısı:</strong> Cümlenizde <em>"${badFound.join(", ")}"</em> kelimesi geçiyor. Kişinin bunu bildiğini/anladığını dışarıdan nasıl göreceğiz? Somut bir eylem fiili yazın.`;
+      } else if (!hasDigit) {
+        box.className = "alert alert-warn show";
+        box.innerHTML = `ℹ️ <strong>Ölçüt Eksik Olabilir:</strong> Eylem fiiliniz çok güzel! Şimdi cümleye <em>kaç dakikada, kaç hatayla veya yüzde kaç doğrulukla</em> yapılacağını gösteren sayısal bir <strong>Ölçüt</strong> ekleyin.`;
+      } else {
+        box.className = "alert alert-ok show";
+        box.innerHTML = `✅ <strong>Mükemmel Formülasyon!</strong> Koşul, gözlemlenebilir davranış ve sayısal ölçüt bir arada yer alıyor.`;
+      }
+    }
+
+    function updateBuilderPreview() {
+      const c = document.getElementById("bCond").value.trim();
+      const b = document.getElementById("bBeh").value.trim();
+      const cr = document.getElementById("bCrit").value.trim();
+      const preview = document.getElementById("liveSentence");
+
+      if (!c && !b && !cr) {
+        preview.innerHTML = `<strong>Oluşan Hedef Cümleniz:</strong> <em>Yukarıdaki kutuları doldurdukça cümleniz burada oluşacak...</em>`;
+        return "";
+      }
+
+      const condPart = c ? `<span class="hl-cond">${escapeHtml(c)}</span>` : "<em>[Koşul eksik]</em>";
+      const behPart = b ? `<span class="hl-beh">${escapeHtml(b)}</span>` : "<em>[Davranış eksik]</em>";
+      const critPart = cr ? `<span class="hl-crit">${escapeHtml(cr)}</span>` : "<em>[Ölçüt eksik]</em>";
+
+      preview.innerHTML = `<strong>Oluşan Hedef Cümleniz:</strong> "Kursiyer, ${condPart}, ${behPart} ve bu işlemi ${critPart} tamamlar."`;
+      return `Kursiyer, ${c || "[Koşul]"}, ${b || "[Davranış]"} ve bu işlemi ${cr || "[Ölçüt]"} tamamlar.`;
+    }
+
+    function toggleBox(id) {
+      document.getElementById(id).classList.toggle("show");
+    }
+
+    function saveAndTrack() {
+      const state = {
+        studentName: document.getElementById("studentName").value,
+        bCond: document.getElementById("bCond").value,
+        bBeh: document.getElementById("bBeh").value,
+        bCrit: document.getElementById("bCrit").value,
+        task2Input: document.getElementById("task2Input").value,
+        task3Weak: document.getElementById("task3Weak").value,
+        task3Strong: document.getElementById("task3Strong").value
+      };
+      localStorage.setItem("adu_iky_hedef_atolyesi", JSON.stringify(state));
+
+      let count = 0;
+      if (state.studentName.trim()) count++;
+      if (state.bCond.trim() && state.bBeh.trim() && state.bCrit.trim()) count++;
+      if (state.task2Input.trim()) count++;
+      if (state.task3Strong.trim()) count++;
+
+      document.getElementById("progressFill").style.width = (count * 25) + "%";
+      document.getElementById("progressText").textContent = count + "/4";
+
+      const badge = document.getElementById("saveBadge");
+      badge.textContent = "✓ Kaydedildi";
+      setTimeout(() => { badge.textContent = "● Otomatik Kayıt"; }, 1000);
+    }
+
+    function buildSpeechCard() {
+      const name = document.getElementById("studentName").value.trim() || "Öğrenci";
+      const built1 = updateBuilderPreview() || "(Henüz doldurulmadı)";
+      const t2 = document.getElementById("task2Input").value.trim() || "(Henüz yazılmadı)";
+      const t3w = document.getElementById("task3Weak").value.trim();
+      const t3s = document.getElementById("task3Strong").value.trim() || "(Henüz yazılmadı)";
+
+      document.getElementById("outName").textContent = name;
+      document.getElementById("out1").textContent = built1;
+      document.getElementById("out2").textContent = t2;
+      document.getElementById("out3").innerHTML = (t3w ? `<span style="color:#fca5a5; text-decoration:line-through; font-size:0.86rem;">Zayıf: ${escapeHtml(t3w)}</span><br>` : "") + `<strong>Güçlü:</strong> ${escapeHtml(t3s)}`;
+
+      const card = document.getElementById("speechCard");
+      card.classList.add("show");
+      card.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+
+    function escapeHtml(str) {
+      return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+    }
+
+    function loadState() {
+      const raw = localStorage.getItem("adu_iky_hedef_atolyesi");
+      if (!raw) return;
+      try {
+        const s = JSON.parse(raw);
+        Object.keys(s).forEach(k => {
+          const el = document.getElementById(k);
+          if (el) el.value = s[k] || "";
+        });
+        updateBuilderPreview();
+        validateGoal(s.task2Input || "", "task2Warn");
+        validateGoal(s.task3Strong || "", "task3Warn");
+        saveAndTrack();
+      } catch (e) {}
+    }
+
+    function resetAll() {
+      if (!confirm("Tüm cevaplarınız silinecek. Emin misiniz?")) return;
+      localStorage.removeItem("adu_iky_hedef_atolyesi");
+      document.querySelectorAll("input, textarea").forEach(el => el.value = "");
+      document.querySelectorAll(".alert").forEach(el => el.className = "alert");
+      document.getElementById("speechCard").classList.remove("show");
+      updateBuilderPreview();
+      saveAndTrack();
+    }
+
+    ["bCond", "bBeh", "bCrit"].forEach(id => {
+      document.getElementById(id).addEventListener("input", () => {
+        updateBuilderPreview();
+        saveAndTrack();
+      });
+    });
+
+    document.getElementById("task2Input").addEventListener("input", e => {
+      validateGoal(e.target.value, "task2Warn");
+      saveAndTrack();
+    });
+
+    document.getElementById("task3Strong").addEventListener("input", e => {
+      validateGoal(e.target.value, "task3Warn");
+      saveAndTrack();
+    });
+
+    ["studentName", "task3Weak"].forEach(id => {
+      document.getElementById(id).addEventListener("input", saveAndTrack);
+    });
+
+    window.addEventListener("DOMContentLoaded", loadState);
+  </script>
+</body>
+</html>
