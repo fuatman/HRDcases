@@ -1,0 +1,821 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ADÜ İKY | ADDIE Tasarım & Geliştirme Vaka Atölyesi</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        navy: {
+                            800: '#1E3A8A',
+                            900: '#172554',
+                        },
+                        emerald: {
+                            700: '#0F766E',
+                            800: '#115E59',
+                        },
+                        amber: {
+                            700: '#B45309',
+                            50: '#FFFBEB',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Mobil yatay kaydırmayı kesin olarak önle */
+        html, body {
+            overflow-x: hidden;
+            max-width: 100%;
+            -webkit-tap-highlight-color: transparent;
+        }
+        /* Özel kaydırma çubuğu */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 999px;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans antialiased selection:bg-blue-100 selection:text-blue-900 pb-24">
+
+    <!-- Üst Bilgi (Sticky Header & 30 Dk Zamanlayıcı) -->
+    <header class="sticky top-0 z-40 bg-navy-800 text-white shadow-md">
+        <div class="max-w-2xl mx-auto px-4 py-3">
+            <div class="flex items-center justify-between gap-2">
+                <div>
+                    <p class="text-[11px] font-semibold uppercase tracking-wider text-blue-200">ADÜ İKY ABD • Örgütlerde Öğrenme ve Gelişim</p>
+                    <h1 class="text-base sm:text-lg font-bold leading-tight">ADDIE: Tasarım & Geliştirme Atölyesi</h1>
+                </div>
+                
+                <!-- 30 Dakikalık Atölye Zamanlayıcısı -->
+                <div class="flex items-center gap-1.5 bg-navy-900/80 border border-blue-700/60 px-2.5 py-1.5 rounded-xl shrink-0">
+                    <button id="timerToggleBtn" onclick="toggleTimer()" class="flex items-center gap-1.5 text-xs font-semibold text-amber-300 active:scale-95 transition" title="Zamanlayıcıyı Başlat/Durdur">
+                        <svg id="timerIconPlay" class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M6.3 2.841A1.5 1.5 0 004 4.11V15.89a1.5 1.5 0 002.3 1.269l9.344-5.89a1.5 1.5 0 000-2.538L6.3 2.84z"/></svg>
+                        <svg id="timerIconPause" class="w-4 h-4 hidden" fill="currentColor" viewBox="0 0 20 20"><path d="M5.75 3a.75.75 0 00-.75.75v12.5c0 .414.336.75.75.75h1.5a.75.75 0 00.75-.75V3.75A.75.75 0 007.25 3h-1.5zM12.75 3a.75.75 0 00-.75.75v12.5c0 .414.336.75.75.75h1.5a.75.75 0 00.75-.75V3.75a.75.75 0 00-.75-.75h-1.5z"/></svg>
+                        <span id="timerDisplay" class="font-mono text-sm text-white">30:00</span>
+                    </button>
+                    <button onclick="resetTimer()" class="text-blue-300 hover:text-white p-1" title="Süreyi Sıfırla">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
+                    </button>
+                </div>
+            </div>
+
+            <!-- İlerleme Çubuğu ve Adım Göstergesi -->
+            <div class="mt-3">
+                <div class="flex justify-between text-[11px] font-medium text-blue-200 mb-1">
+                    <span id="stepLabelText">Adım 1 / 4: Öğrenme Hedefi Yazımı</span>
+                    <span id="saveStatus" class="text-emerald-300 flex items-center gap-1">
+                        <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 inline-block"></span> Otomatik Kayıt Aktif
+                    </span>
+                </div>
+                <div class="w-full bg-navy-900 rounded-full h-2 overflow-hidden">
+                    <div id="progressBar" class="bg-emerald-400 h-2 rounded-full transition-all duration-300" style="width: 25%"></div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Ana İçerik Konteyneri -->
+    <main class="max-w-2xl mx-auto px-4 pt-4 space-y-4">
+
+        <!-- Açılır / Kapanır Örnek Olay Kartı (Her adımda kolayca erişilebilir) -->
+        <section class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+            <button onclick="toggleCaseCard()" class="w-full flex items-center justify-between px-4 py-3.5 bg-amber-50/80 border-b border-amber-100 text-left">
+                <div class="flex items-center gap-2.5">
+                    <span class="bg-amber-700 text-white text-xs font-bold px-2.5 py-1 rounded-lg">VAKA</span>
+                    <div>
+                        <h2 class="text-sm font-bold text-slate-900">Anadolu Perakende ve E-Ticaret A.Ş.</h2>
+                        <p class="text-xs text-slate-600">İhtiyaç Analizi Sonuçlarını İncele / Gizle</p>
+                    </div>
+                </div>
+                <svg id="caseChevron" class="w-5 h-5 text-amber-800 transform transition-transform duration-200 rotate-180" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/>
+                </svg>
+            </button>
+
+            <div id="caseBody" class="p-4 text-sm text-slate-700 space-y-2.5 leading-relaxed">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+                    <div class="bg-slate-50 p-2.5 rounded-xl border border-slate-100">
+                        <span class="font-bold text-navy-800 block">Hedef Kitle:</span>
+                        Türkiye genelinde 14 farklı şehirdeki mağazalarda görev yapan, yeni terfi etmiş <strong>28 Mağaza Takım Lideri</strong>.
+                    </div>
+                    <div class="bg-slate-50 p-2.5 rounded-xl border border-slate-100">
+                        <span class="font-bold text-amber-700 block">Kritik Kısıtlar:</span>
+                        Mağaza operasyonu duramayacağı için <strong>aynı anda eğitime alınamıyorlar</strong>. Süre <strong>3 hafta</strong>, bütçe <strong>orta-düşük</strong>.
+                    </div>
+                </div>
+                <div class="bg-blue-50/60 p-3 rounded-xl border border-blue-100 text-xs sm:text-sm space-y-1.5">
+                    <p class="font-bold text-navy-800">Eğitim İhtiyaç Analizi Bulguları (Sorunlar):</p>
+                    <ul class="list-disc pl-4 space-y-1 text-slate-700">
+                        <li><strong>Geri Bildirim Eksikliği:</strong> Takım liderleri hata yapan personele yapıcı geri bildirim vermek yerine sert uyarılar yapıyor (personel devir hızı %35'e çıktı).</li>
+                        <li><strong>Çatışma Yönetimi:</strong> Hafta sonu izinleri ve vardiya değişimlerinde çalışanlar arasındaki çatışmaları çözemiyorlar.</li>
+                        <li><strong>Yazılım Kullanımı (ShiftPro):</strong> Yeni vardiya planlama yazılımı <em>ShiftPro</em>'da fazla mesai limitlerini hatalı girdikleri için bütçe aşımı yaşanıyor.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Adım Sekme Navigasyonu (Hızlı Geçiş) -->
+        <nav class="grid grid-cols-4 gap-1.5 bg-slate-200/70 p-1.5 rounded-2xl">
+            <button onclick="goToStep(1)" id="tab1" class="step-tab py-2 px-1 rounded-xl text-xs font-bold transition text-center bg-navy-800 text-white shadow-sm">
+                1. Hedefler
+            </button>
+            <button onclick="goToStep(2)" id="tab2" class="step-tab py-2 px-1 rounded-xl text-xs font-semibold transition text-center text-slate-600 hover:text-slate-900">
+                2. Yöntem
+            </button>
+            <button onclick="goToStep(3)" id="tab3" class="step-tab py-2 px-1 rounded-xl text-xs font-semibold transition text-center text-slate-600 hover:text-slate-900">
+                3. Materyal
+            </button>
+            <button onclick="goToStep(4)" id="tab4" class="step-tab py-2 px-1 rounded-xl text-xs font-semibold transition text-center text-slate-600 hover:text-slate-900">
+                4. Sunum
+            </button>
+        </nav>
+
+        <!-- ==================== ADIM 1: TASARIM - ÖĞRENME HEDEFİ YAZIMI ==================== -->
+        <div id="step1" class="step-panel space-y-4">
+            <div class="bg-white rounded-2xl p-4 sm:p-5 shadow-sm border border-slate-200 space-y-4">
+                <div class="border-b border-slate-100 pb-3">
+                    <span class="text-xs font-bold text-emerald-700 uppercase tracking-wider">Birinci 'D': Tasarım Aşaması</span>
+                    <h3 class="text-lg font-bold text-slate-900 mt-0.5">Öğrenme Hedeflerinin Formülasyonu</h3>
+                    <p class="text-xs sm:text-sm text-slate-600 mt-1">
+                        Robert Mager'in 3 bileşenli formülünü (<strong>Koşul + Gözlemlenebilir Davranış + Ölçüt/Standart</strong>) kullanarak bu vaka için 2 somut öğrenme hedefi yazın.
+                    </p>
+                </div>
+
+                <!-- Hedef 1 -->
+                <div class="space-y-1.5">
+                    <label for="goal1" class="block text-xs font-bold text-navy-800">
+                        1. Öğrenme Hedefi (İletişim / Geri Bildirim / Çatışma Odaklı):
+                    </label>
+                    <textarea id="goal1" rows="3" oninput="handleGoalInput()" placeholder="Örn: Takım lideri, vardiya gecikmesi yaşayan bir çalışanla yaptığı görüşmede (Koşul), SBI modelini kullanarak... (Davranış) ... (Ölçüt)." class="w-full rounded-xl border border-slate-300 p-3 text-sm focus:border-navy-800 focus:ring-2 focus:ring-blue-100 outline-none transition"></textarea>
+                    <div id="goal1Feedback" class="text-xs hidden"></div>
+                </div>
+
+                <!-- Hedef 2 -->
+                <div class="space-y-1.5">
+                    <label for="goal2" class="block text-xs font-bold text-navy-800">
+                        2. Öğrenme Hedefi (ShiftPro Yazılım Becerisi Odaklı):
+                    </label>
+                    <textarea id="goal2" rows="3" oninput="handleGoalInput()" placeholder="Örn: Takım lideri, 15 kişilik örnek bir mağaza ekibinin haftalık vardiya çizelgesi verildiğinde (Koşul), ShiftPro yazılımını kullanarak... (Davranış) ... (Ölçüt)." class="w-full rounded-xl border border-slate-300 p-3 text-sm focus:border-navy-800 focus:ring-2 focus:ring-blue-100 outline-none transition"></textarea>
+                    <div id="goal2Feedback" class="text-xs hidden"></div>
+                </div>
+
+                <!-- Canlı Hedef Kalite Kontrol Listesi -->
+                <div class="bg-slate-50 rounded-xl p-3.5 border border-slate-200 space-y-2.5">
+                    <div class="flex items-center justify-between">
+                        <span class="text-xs font-bold text-slate-800">Hedef Öz-Değerlendirme Kontrol Listesi</span>
+                        <span id="checklistScore" class="text-xs font-bold px-2 py-0.5 rounded-full bg-slate-200 text-slate-700">0/4</span>
+                    </div>
+                    <div class="space-y-2 text-xs sm:text-sm">
+                        <label class="flex items-start gap-2.5 cursor-pointer select-none">
+                            <input type="checkbox" id="chkCondition" onchange="updateChecklist()" class="mt-0.5 w-4 h-4 rounded text-emerald-700 focus:ring-emerald-600">
+                            <span><strong>Koşul</strong> belirttim (Hangi araçla, hangi senaryoda yapacak?)</span>
+                        </label>
+                        <label class="flex items-start gap-2.5 cursor-pointer select-none">
+                            <input type="checkbox" id="chkBehavior" onchange="updateChecklist()" class="mt-0.5 w-4 h-4 rounded text-emerald-700 focus:ring-emerald-600">
+                            <span><strong>Gözlemlenebilir fiil</strong> kullandım (Uygular, oluşturur, ayırt eder...)</span>
+                        </label>
+                        <label class="flex items-start gap-2.5 cursor-pointer select-none">
+                            <input type="checkbox" id="chkCriteria" onchange="updateChecklist()" class="mt-0.5 w-4 h-4 rounded text-emerald-700 focus:ring-emerald-600">
+                            <span><strong>Ölçüt / Standart</strong> ekledim (Süre, hata oranı, kriter sayısı...)</span>
+                        </label>
+                        <label class="flex items-start gap-2.5 cursor-pointer select-none">
+                            <input type="checkbox" id="chkNoVague" onchange="updateChecklist()" class="mt-0.5 w-4 h-4 rounded text-emerald-700 focus:ring-emerald-600">
+                            <span><em>"Anlar, bilir, kavrar, öğrenir"</em> gibi muğlak fiillerden kaçındım.</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Uzman İpucu / Örnek Çözüm Açılır Paneli -->
+                <div class="border border-emerald-200 rounded-xl overflow-hidden">
+                    <button onclick="toggleHint('hint1')" class="w-full flex items-center justify-between px-3.5 py-2.5 bg-emerald-50 text-emerald-800 text-xs font-bold">
+                        <span>Önce Kendi Hedefini Yaz, Sonra Uzman Çözümünü Gör</span>
+                        <span id="hint1Badge" class="underline">Göster</span>
+                    </button>
+                    <div id="hint1" class="hidden p-3.5 bg-white text-xs text-slate-700 space-y-2 border-t border-emerald-100 leading-relaxed">
+                        <p><strong>Örnek Hedef 1 (Davranışsal):</strong> Takım lideri, vardiya kurallarını ihlal eden bir çalışan rol oynama senaryosunda <em>(Koşul)</em>, suçlayıcı dil kullanmadan SBI (Durum-Davranış-Etki) tekniğiyle yapıcı geri bildirim görüşmesini <em>(Davranış)</em> gözlem formundaki 5 kriterin tamamını karşılayarak 6 dakika içinde yürütebilir <em>(Ölçüt)</em>.</p>
+                        <p><strong>Örnek Hedef 2 (Yazılım Becerisi):</strong> Takım lideri, 12 çalışanın izin taleplerini içeren haftalık mağaza vardiya tablosu verildiğinde <em>(Koşul)</em>, ShiftPro yazılımında yasal fazla mesai sınırını aşmadan vardiya planını <em>(Davranış)</em> 10 dakikanın altında sıfır hata uyarısıyla oluşturabilir <em>(Ölçüt)</em>.</p>
+                    </div>
+                </div>
+            </div>
+
+            <button onclick="goToStep(2)" class="w-full py-3.5 bg-navy-800 hover:bg-navy-900 text-white font-bold rounded-xl shadow-sm text-sm transition active:scale-[0.99]">
+                2. Adıma Geç: Yöntem ve Ölçme Tasarımı →
+            </button>
+        </div>
+
+        <!-- ==================== ADIM 2: TASARIM - YÖNTEM, MEDYA VE ÖLÇME ==================== -->
+        <div id="step2" class="step-panel hidden space-y-4">
+            <div class="bg-white rounded-2xl p-4 sm:p-5 shadow-sm border border-slate-200 space-y-4">
+                <div class="border-b border-slate-100 pb-3">
+                    <span class="text-xs font-bold text-emerald-700 uppercase tracking-wider">Birinci 'D': Tasarım Aşaması</span>
+                    <h3 class="text-lg font-bold text-slate-900 mt-0.5">Öğretim Yöntemleri ve Ölçme Planı</h3>
+                    <p class="text-xs sm:text-sm text-slate-600 mt-1">
+                        14 farklı şehirdeki 28 liderin aynı anda mağazadan ayrılamayacağını ve bütçe kısıtını dikkate alarak uygun yöntemleri seçin.
+                    </p>
+                </div>
+
+                <!-- Çoklu Seçim Yöntem Kartları -->
+                <div class="space-y-2">
+                    <label class="block text-xs font-bold text-navy-800">1. Bu Vaka İçin Hangi Yöntemleri Seçersiniz? (Birden fazla seçebilirsiniz)</label>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-2" id="methodCardsContainer">
+                        <!-- JS ile veya statik interaktif kartlar -->
+                        <button type="button" onclick="toggleMethod(this, 'Karma Öğrenme (Blended Learning)')" class="method-btn text-left p-3 rounded-xl border border-slate-200 bg-slate-50 hover:border-navy-800 transition flex items-start gap-2.5">
+                            <span class="check-circle w-4 h-4 mt-0.5 rounded-full border border-slate-400 flex items-center justify-center shrink-0 text-[10px] font-bold"></span>
+                            <div>
+                                <div class="text-xs font-bold text-slate-900">Karma Öğrenme (Blended)</div>
+                                <div class="text-[11px] text-slate-500">Asenkron modül + canlı sanal atölye</div>
+                            </div>
+                        </button>
+
+                        <button type="button" onclick="toggleMethod(this, 'Mikro-Öğrenme (3-7 dk videolar)')" class="method-btn text-left p-3 rounded-xl border border-slate-200 bg-slate-50 hover:border-navy-800 transition flex items-start gap-2.5">
+                            <span class="check-circle w-4 h-4 mt-0.5 rounded-full border border-slate-400 flex items-center justify-center shrink-0 text-[10px] font-bold"></span>
+                            <div>
+                                <div class="text-xs font-bold text-slate-900">Mikro-Öğrenme (Microlearning)</div>
+                                <div class="text-[11px] text-slate-500">Mağaza molalarında 5 dk hap içerikler</div>
+                            </div>
+                        </button>
+
+                        <button type="button" onclick="toggleMethod(this, 'Senkron Çevrimiçi Rol Oynama')" class="method-btn text-left p-3 rounded-xl border border-slate-200 bg-slate-50 hover:border-navy-800 transition flex items-start gap-2.5">
+                            <span class="check-circle w-4 h-4 mt-0.5 rounded-full border border-slate-400 flex items-center justify-center shrink-0 text-[10px] font-bold"></span>
+                            <div>
+                                <div class="text-xs font-bold text-slate-900">Canlı Sanal Rol Oynama</div>
+                                <div class="text-[11px] text-slate-500">7'şerli gruplarla geri bildirim provası</div>
+                            </div>
+                        </button>
+
+                        <button type="button" onclick="toggleMethod(this, 'İş Başı Yardımcıları (Job Aids)')" class="method-btn text-left p-3 rounded-xl border border-slate-200 bg-slate-50 hover:border-navy-800 transition flex items-start gap-2.5">
+                            <span class="check-circle w-4 h-4 mt-0.5 rounded-full border border-slate-400 flex items-center justify-center shrink-0 text-[10px] font-bold"></span>
+                            <div>
+                                <div class="text-xs font-bold text-slate-900">İş Başı Yardımcıları (Job Aids)</div>
+                                <div class="text-[11px] text-slate-500">Hızlı başvuru kartı ve kontrol listesi</div>
+                            </div>
+                        </button>
+
+                        <button type="button" onclick="toggleMethod(this, 'Tüm Ekibe 3 Gün Yüz Yüze Seminer')" class="method-btn text-left p-3 rounded-xl border border-slate-200 bg-slate-50 hover:border-navy-800 transition flex items-start gap-2.5">
+                            <span class="check-circle w-4 h-4 mt-0.5 rounded-full border border-slate-400 flex items-center justify-center shrink-0 text-[10px] font-bold"></span>
+                            <div>
+                                <div class="text-xs font-bold text-slate-900">3 Gün Merkezde Yüz Yüze Seminer</div>
+                                <div class="text-[11px] text-slate-500">Tüm liderlerin merkeze çağrılması</div>
+                            </div>
+                        </button>
+
+                        <button type="button" onclick="toggleMethod(this, 'Bölge Müdürü Akran Koçluğu')" class="method-btn text-left p-3 rounded-xl border border-slate-200 bg-slate-50 hover:border-navy-800 transition flex items-start gap-2.5">
+                            <span class="check-circle w-4 h-4 mt-0.5 rounded-full border border-slate-400 flex items-center justify-center shrink-0 text-[10px] font-bold"></span>
+                            <div>
+                                <div class="text-xs font-bold text-slate-900">Bölge Müdürü Akran Koçluğu</div>
+                                <div class="text-[11px] text-slate-500">Mağaza içi gözlem ve geri bildirim</div>
+                            </div>
+                        </button>
+                    </div>
+                    <div id="methodWarning" class="hidden text-xs text-amber-800 bg-amber-50 border border-amber-200 p-2.5 rounded-xl">
+                        <strong>Dikkat:</strong> Vaka kısıtlarında 28 liderin aynı anda mağazadan ayrılamayacağı ve bütçenin kısıtlı olduğu belirtilmişti. Yüz yüze seminer operasyonel açıdan riskli olabilir!
+                    </div>
+                </div>
+
+                <!-- Seçim Gerekçesi -->
+                <div class="space-y-1.5">
+                    <label for="methodRationale" class="block text-xs font-bold text-navy-800">
+                        2. Yöntem Seçimi Gerekçeniz ve Gagné Stratejisi (Neden bu yöntemler?):
+                    </label>
+                    <textarea id="methodRationale" rows="3" oninput="saveAllData()" placeholder="Örn: 14 farklı şehirde oldukları ve aynı anda ayrılamadıkları için ShiftPro yazılımını mikro-öğrenme videolarıyla asenkron verip, geri bildirim becerisini 7 kişilik sanal gruplarda rol oynama ile..." class="w-full rounded-xl border border-slate-300 p-3 text-sm focus:border-navy-800 focus:ring-2 focus:ring-blue-100 outline-none"></textarea>
+                </div>
+
+                <!-- Kirkpatrick Ölçme Tasarımı -->
+                <div class="space-y-1.5">
+                    <label for="kirkpatrickPlan" class="block text-xs font-bold text-navy-800">
+                        3. Geriye Doğru Tasarım: Öğrenmeyi ve İşe Transferi Nasıl Ölçeceksiniz? (Kirkpatrick 2. ve 3. Düzey):
+                    </label>
+                    <textarea id="kirkpatrickPlan" rows="3" oninput="saveAllData()" placeholder="Örn: Düzey 2 (Öğrenme) için ShiftPro test ortamında vardiya oluşturma sınavı; Düzey 3 (Davranış) için eğitimden 1 ay sonra bölge müdürlerinin mağazada geri bildirim gözlemi..." class="w-full rounded-xl border border-slate-300 p-3 text-sm focus:border-navy-800 focus:ring-2 focus:ring-blue-100 outline-none"></textarea>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-2 gap-2.5">
+                <button onclick="goToStep(1)" class="py-3 bg-white border border-slate-300 text-slate-700 font-bold rounded-xl text-sm">
+                    ← Geri
+                </button>
+                <button onclick="goToStep(3)" class="py-3 bg-navy-800 hover:bg-navy-900 text-white font-bold rounded-xl shadow-sm text-sm">
+                    3. Adıma Geç →
+                </button>
+            </div>
+        </div>
+
+        <!-- ==================== ADIM 3: GELİŞTİRME - MATERYAL VE BİLİŞSEL YÜK ==================== -->
+        <div id="step3" class="step-panel hidden space-y-4">
+            <div class="bg-white rounded-2xl p-4 sm:p-5 shadow-sm border border-slate-200 space-y-4">
+                <div class="border-b border-slate-100 pb-3">
+                    <span class="text-xs font-bold text-amber-700 uppercase tracking-wider">İkinci 'D': Geliştirme Aşaması</span>
+                    <h3 class="text-lg font-bold text-slate-900 mt-0.5">Materyal Üretimi, Bilişsel Yük ve Pilot Test</h3>
+                    <p class="text-xs sm:text-sm text-slate-600 mt-1">
+                        Planladığınız eğitimi somut materyallere dönüştürün. Slayt, video, senaryo kartı veya cep rehberi üretirken nelere dikkat edeceksiniz?
+                    </p>
+                </div>
+
+                <!-- Somut Materyaller -->
+                <div class="space-y-1.5">
+                    <label for="materialsList" class="block text-xs font-bold text-navy-800">
+                        1. Geliştireceğiniz 2 Somut Eğitim Materyalini Tanımlayın:
+                    </label>
+                    <textarea id="materialsList" rows="3" oninput="saveAllData()" placeholder="Örn: (1) ShiftPro ekran kaydı üzerinden hazırlanmış 3 adet 4 dakikalık etkileşimli simülasyon videosu (SCORM); (2) Mağaza ofisine asılacak A5 boyutunda 'SBI Geri Bildirim ve Vardiya Çatışması Çözüm Kartı' (Job Aid)..." class="w-full rounded-xl border border-slate-300 p-3 text-sm focus:border-navy-800 focus:ring-2 focus:ring-blue-100 outline-none"></textarea>
+                </div>
+
+                <!-- Bilişsel Yük Kuramı Uygulaması -->
+                <div class="space-y-1.5">
+                    <label for="cognitiveLoad" class="block text-xs font-bold text-navy-800">
+                        2. Bilişsel Yük Kuramı (Sweller) Açısından Materyallerde Nelere Dikkat Edeceksiniz?
+                    </label>
+                    <textarea id="cognitiveLoad" rows="2" oninput="saveAllData()" placeholder="Örn: Videolarda gereksiz animasyon ve uzun metin bloklarından kaçınacağız; her videoda yalnızca tek bir ShiftPro işlemini göstereceğiz..." class="w-full rounded-xl border border-slate-300 p-3 text-sm focus:border-navy-800 focus:ring-2 focus:ring-blue-100 outline-none"></textarea>
+                </div>
+
+                <!-- Pilot Test -->
+                <div class="space-y-1.5">
+                    <label for="pilotTest" class="block text-xs font-bold text-navy-800">
+                        3. Pilot Uygulamada (Biçimlendirici Değerlendirme) Kimlerle Neyi Test Edeceksiniz?
+                    </label>
+                    <textarea id="pilotTest" rows="2" oninput="saveAllData()" placeholder="Örn: 3 mağaza takım lideriyle videoların mobil cihazlarda açılıp açılmadığını, sürelerin yetip yetmediğini ve rol oynama kartlarının anlaşılırlığını test edeceğiz..." class="w-full rounded-xl border border-slate-300 p-3 text-sm focus:border-navy-800 focus:ring-2 focus:ring-blue-100 outline-none"></textarea>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-2 gap-2.5">
+                <button onclick="goToStep(2)" class="py-3 bg-white border border-slate-300 text-slate-700 font-bold rounded-xl text-sm">
+                    ← Geri
+                </button>
+                <button onclick="goToStep(4)" class="py-3 bg-emerald-700 hover:bg-emerald-800 text-white font-bold rounded-xl shadow-sm text-sm">
+                    Sunum Kartını Oluştur ✓
+                </button>
+            </div>
+        </div>
+
+        <!-- ==================== ADIM 4: SINIF İÇİ SUNUM KARTI ('SÖZ SIRASI BENDE' MODU) ==================== -->
+        <div id="step4" class="step-panel hidden space-y-4">
+            <div class="bg-navy-900 text-white rounded-2xl p-5 shadow-lg space-y-4 border border-blue-800">
+                <div class="flex items-center justify-between border-b border-blue-800 pb-3">
+                    <div>
+                        <span class="bg-emerald-500 text-navy-900 text-[11px] font-extrabold px-2.5 py-0.5 rounded-full uppercase">Söz Sırası Bende Modu</span>
+                        <h3 class="text-lg sm:text-xl font-extrabold mt-1">Anadolu Perakende A.Ş. Tasarım Özeti</h3>
+                    </div>
+                    <button onclick="copyPresentationText()" class="bg-blue-800 hover:bg-blue-700 text-white text-xs font-bold px-3 py-2 rounded-xl border border-blue-600 flex items-center gap-1.5 shrink-0 active:scale-95 transition">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
+                        <span id="copyBtnText">Kopyala</span>
+                    </button>
+                </div>
+
+                <!-- Büyük Puntolu Okunaklı Sunum Alanları -->
+                <div class="space-y-4 text-base leading-relaxed">
+                    <div class="bg-navy-800/90 p-3.5 rounded-xl border border-blue-700/50">
+                        <div class="text-xs font-bold uppercase tracking-wider text-amber-300 mb-1">1. Öğrenme Hedeflerimiz (Tasarım)</div>
+                        <p id="presGoal1" class="text-sm sm:text-base text-slate-100 mb-2"></p>
+                        <p id="presGoal2" class="text-sm sm:text-base text-slate-100"></p>
+                    </div>
+
+                    <div class="bg-navy-800/90 p-3.5 rounded-xl border border-blue-700/50">
+                        <div class="text-xs font-bold uppercase tracking-wider text-emerald-300 mb-1">2. Yöntem & Ölçme Stratejimiz</div>
+                        <div id="presMethods" class="flex flex-wrap gap-1.5 mb-2"></div>
+                        <p id="presRationale" class="text-sm sm:text-base text-slate-100 mb-2"></p>
+                        <p id="presKirkpatrick" class="text-sm sm:text-base text-blue-200"></p>
+                    </div>
+
+                    <div class="bg-navy-800/90 p-3.5 rounded-xl border border-blue-700/50">
+                        <div class="text-xs font-bold uppercase tracking-wider text-amber-300 mb-1">3. Geliştirilecek Materyaller & Pilot Test</div>
+                        <p id="presMaterials" class="text-sm sm:text-base text-slate-100 mb-2"></p>
+                        <p id="presCognitive" class="text-sm sm:text-base text-slate-200 mb-2"></p>
+                        <p id="presPilot" class="text-sm sm:text-base text-emerald-200"></p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex items-center justify-between gap-2.5">
+                <button onclick="goToStep(3)" class="flex-1 py-3 bg-white border border-slate-300 text-slate-700 font-bold rounded-xl text-sm">
+                    ← Düzenle
+                </button>
+                <button onclick="showResetModal()" class="py-3 px-4 bg-rose-50 border border-rose-200 text-rose-700 font-bold rounded-xl text-sm">
+                    Temizle
+                </button>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Özel Onay Modali (confirm() yerine güvenli arayüz) -->
+    <div id="resetModal" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs hidden items-center justify-center p-4">
+        <div class="bg-white rounded-2xl max-w-sm w-full p-5 shadow-xl space-y-4">
+            <h4 class="text-base font-bold text-slate-900">Tüm Yanıtları Temizle?</h4>
+            <p class="text-xs sm:text-sm text-slate-600">Yazdığınız tüm hedefler, seçimler ve notlar silinecektir. Emin misiniz?</p>
+            <div class="flex justify-end gap-2">
+                <button onclick="hideResetModal()" class="px-4 py-2 rounded-xl text-xs font-bold text-slate-600 bg-slate-100">Vazgeç</button>
+                <button onclick="confirmClearAll()" class="px-4 py-2 rounded-xl text-xs font-bold text-white bg-rose-600">Evet, Temizle</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bilgilendirme Mesaj Kutusu (Toast) -->
+    <div id="toastBox" class="fixed bottom-5 left-1/2 -translate-x-1/2 z-50 bg-slate-900 text-white text-xs font-semibold px-4 py-2.5 rounded-full shadow-lg opacity-0 pointer-events-none transition-opacity duration-200">
+        Mesaj
+    </div>
+
+    <script>
+        // ==================== DURUM YÖNETİMİ VE LOCALSTORAGE ====================
+        const STORAGE_KEY = 'adu_iky_addie_workshop_v1';
+        let currentStep = 1;
+        let selectedMethods = [];
+
+        // Zamanlayıcı Değişkenleri (30 Dakika = 1800 saniye)
+        let totalSeconds = 30 * 60;
+        let timerInterval = null;
+        let isTimerRunning = false;
+
+        // Sayfa Yüklendiğinde Kayıtlı Verileri Geri Yükle
+        window.addEventListener('DOMContentLoaded', () => {
+            loadSavedData();
+            updateChecklist();
+            handleGoalInput();
+        });
+
+        // ==================== ADIM GEÇİŞLERİ ====================
+        function goToStep(stepNumber) {
+            currentStep = stepNumber;
+
+            // Tüm panelleri gizle, aktif olanı göster
+            document.querySelectorAll('.step-panel').forEach((panel, idx) => {
+                if (idx + 1 === stepNumber) {
+                    panel.classList.remove('hidden');
+                } else {
+                    panel.classList.add('hidden');
+                }
+            });
+
+            // Sekme stillerini güncelle
+            document.querySelectorAll('.step-tab').forEach((tab, idx) => {
+                if (idx + 1 === stepNumber) {
+                    tab.className = 'step-tab py-2 px-1 rounded-xl text-xs font-bold transition text-center bg-navy-800 text-white shadow-sm';
+                } else {
+                    tab.className = 'step-tab py-2 px-1 rounded-xl text-xs font-semibold transition text-center text-slate-600 hover:text-slate-900';
+                }
+            });
+
+            // Üst ilerleme çubuğunu güncelle
+            const stepTitles = {
+                1: 'Adım 1 / 4: Öğrenme Hedefi Yazımı',
+                2: 'Adım 2 / 4: Yöntem ve Ölçme Tasarımı',
+                3: 'Adım 3 / 4: Materyal ve Bilişsel Yük',
+                4: 'Adım 4 / 4: Sınıf İçi Sunum Kartı'
+            };
+            document.getElementById('stepLabelText').textContent = stepTitles[stepNumber];
+            document.getElementById('progressBar').style.width = `${stepNumber * 25}%`;
+
+            // 4. adıma geçildiyse sunum kartını derle
+            if (stepNumber === 4) {
+                buildPresentationCard();
+            }
+
+            // Yukarı yumuşak kaydır
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // ==================== VAKA KARTI VE İPUCU AÇ/KAPA ====================
+        function toggleCaseCard() {
+            const body = document.getElementById('caseBody');
+            const chevron = document.getElementById('caseChevron');
+            body.classList.toggle('hidden');
+            chevron.classList.toggle('rotate-180');
+        }
+
+        function toggleHint(id) {
+            const el = document.getElementById(id);
+            const badge = document.getElementById(id + 'Badge');
+            el.classList.toggle('hidden');
+            badge.textContent = el.classList.contains('hidden') ? 'Göster' : 'Gizle';
+        }
+
+        // ==================== ADIM 1: HEDEF ANALİZİ & KONTROL LİSTESİ ====================
+        const vagueWords = ['anlar', 'bilir', 'kavrar', 'öğrenir', 'farkında olur', 'geliştirir'];
+
+        function handleGoalInput() {
+            checkVagueWords('goal1', 'goal1Feedback');
+            checkVagueWords('goal2', 'goal2Feedback');
+            saveAllData();
+        }
+
+        function checkVagueWords(inputId, feedbackId) {
+            const text = document.getElementById(inputId).value.toLowerCase();
+            const fb = document.getElementById(feedbackId);
+            const found = vagueWords.filter(word => text.includes(word));
+
+            if (found.length > 0) {
+                fb.classList.remove('hidden');
+                fb.className = 'text-xs text-amber-800 bg-amber-50 border border-amber-200 px-2.5 py-1.5 rounded-lg mt-1';
+                fb.innerHTML = `<strong>İpucu:</strong> Metinde <em>"${found.join(', ')}"</em> ifadesi geçiyor. Bunun yerine dışarıdan gözlemlenebilir bir eylem fiili (örn. <em>uygular, oluşturur, ayırt eder, tamamlar</em>) kullanmayı deneyin.`;
+            } else if (text.trim().length > 25) {
+                fb.classList.remove('hidden');
+                fb.className = 'text-xs text-emerald-800 bg-emerald-50 border border-emerald-200 px-2.5 py-1.5 rounded-lg mt-1';
+                fb.innerHTML = `✓ Muğlak fiil tespit edilmedi. Koşul ve ölçüt (süre/doğruluk) eklediğinizden emin olun.`;
+            } else {
+                fb.classList.add('hidden');
+            }
+        }
+
+        function updateChecklist() {
+            const checkboxes = ['chkCondition', 'chkBehavior', 'chkCriteria', 'chkNoVague'];
+            let count = 0;
+            checkboxes.forEach(id => {
+                if (document.getElementById(id).checked) count++;
+            });
+
+            const badge = document.getElementById('checklistScore');
+            badge.textContent = `${count}/4`;
+            if (count === 4) {
+                badge.className = 'text-xs font-bold px-2.5 py-0.5 rounded-full bg-emerald-700 text-white';
+            } else {
+                badge.className = 'text-xs font-bold px-2.5 py-0.5 rounded-full bg-slate-200 text-slate-700';
+            }
+            saveAllData();
+        }
+
+        // ==================== ADIM 2: YÖNTEM KARTLARI SEÇİMİ ====================
+        function toggleMethod(btnElement, methodName) {
+            const idx = selectedMethods.indexOf(methodName);
+            const circle = btnElement.querySelector('.check-circle');
+
+            if (idx === -1) {
+                selectedMethods.push(methodName);
+                btnElement.classList.remove('bg-slate-50', 'border-slate-200');
+                btnElement.classList.add('bg-blue-50', 'border-navy-800', 'ring-1', 'ring-navy-800');
+                circle.classList.remove('border-slate-400');
+                circle.classList.add('bg-navy-800', 'border-navy-800', 'text-white');
+                circle.textContent = '✓';
+            } else {
+                selectedMethods.splice(idx, 1);
+                btnElement.classList.add('bg-slate-50', 'border-slate-200');
+                btnElement.classList.remove('bg-blue-50', 'border-navy-800', 'ring-1', 'ring-navy-800');
+                circle.classList.add('border-slate-400');
+                circle.classList.remove('bg-navy-800', 'border-navy-800', 'text-white');
+                circle.textContent = '';
+            }
+
+            // Yanlış/Riskli seçenek uyarısı
+            const warningBox = document.getElementById('methodWarning');
+            if (selectedMethods.includes('Tüm Ekibe 3 Gün Yüz Yüze Seminer')) {
+                warningBox.classList.remove('hidden');
+            } else {
+                warningBox.classList.add('hidden');
+            }
+
+            saveAllData();
+        }
+
+        // ==================== ADIM 4: SUNUM ÖZET KARTINI DERLE ====================
+        function buildPresentationCard() {
+            const g1 = document.getElementById('goal1').value.trim();
+            const g2 = document.getElementById('goal2').value.trim();
+            const rationale = document.getElementById('methodRationale').value.trim();
+            const kirk = document.getElementById('kirkpatrickPlan').value.trim();
+            const mat = document.getElementById('materialsList').value.trim();
+            const cog = document.getElementById('cognitiveLoad').value.trim();
+            const pilot = document.getElementById('pilotTest').value.trim();
+
+            document.getElementById('presGoal1').innerHTML = g1
+                ? `<strong class="text-blue-200">• Hedef 1:</strong> ${escapeHtml(g1)}`
+                : `<span class="text-slate-400 italic">• Hedef 1 henüz yazılmadı.</span>`;
+
+            document.getElementById('presGoal2').innerHTML = g2
+                ? `<strong class="text-blue-200">• Hedef 2:</strong> ${escapeHtml(g2)}`
+                : `<span class="text-slate-400 italic">• Hedef 2 henüz yazılmadı.</span>`;
+
+            const methodsContainer = document.getElementById('presMethods');
+            methodsContainer.innerHTML = '';
+            if (selectedMethods.length > 0) {
+                selectedMethods.forEach(m => {
+                    const tag = document.createElement('span');
+                    tag.className = 'bg-emerald-700/80 text-white text-xs font-semibold px-2.5 py-1 rounded-lg';
+                    tag.textContent = m;
+                    methodsContainer.appendChild(tag);
+                });
+            } else {
+                methodsContainer.innerHTML = `<span class="text-slate-400 text-xs italic">Henüz öğretim yöntemi seçilmedi.</span>`;
+            }
+
+            document.getElementById('presRationale').innerHTML = rationale
+                ? `<strong class="text-emerald-200">Gerekçe:</strong> ${escapeHtml(rationale)}`
+                : '';
+
+            document.getElementById('presKirkpatrick').innerHTML = kirk
+                ? `<strong class="text-emerald-200">Ölçme Planı:</strong> ${escapeHtml(kirk)}`
+                : `<span class="text-slate-400 italic">Ölçme ve değerlendirme planı girilmedi.</span>`;
+
+            document.getElementById('presMaterials').innerHTML = mat
+                ? `<strong class="text-amber-200">Materyaller:</strong> ${escapeHtml(mat)}`
+                : `<span class="text-slate-400 italic">Geliştirilecek materyaller henüz yazılmadı.</span>`;
+
+            document.getElementById('presCognitive').innerHTML = cog
+                ? `<strong class="text-amber-200">Bilişsel Yük Önlemi:</strong> ${escapeHtml(cog)}`
+                : '';
+
+            document.getElementById('presPilot').innerHTML = pilot
+                ? `<strong class="text-emerald-300">Pilot Test:</strong> ${escapeHtml(pilot)}`
+                : '';
+        }
+
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        // ==================== PANOYA KOPYALA (IFRAME UYUMLU) ====================
+        function copyPresentationText() {
+            const summary = [
+                "ADÜ İKY - ADDIE TASARIM & GELİŞTİRME VAKA ÇÖZÜMÜ (Anadolu Perakende A.Ş.)",
+                "--------------------------------------------------",
+                "1. ÖĞRENME HEDEFLERİ:",
+                "- Hedef 1: " + (document.getElementById('goal1').value.trim() || "Belirtilmedi"),
+                "- Hedef 2: " + (document.getElementById('goal2').value.trim() || "Belirtilmedi"),
+                "",
+                "2. YÖNTEM VE ÖLÇME STRATEJİSİ:",
+                "- Seçilen Yöntemler: " + (selectedMethods.join(', ') || "Seçilmedi"),
+                "- Gerekçe: " + (document.getElementById('methodRationale').value.trim() || "Belirtilmedi"),
+                "- Ölçme (Kirkpatrick): " + (document.getElementById('kirkpatrickPlan').value.trim() || "Belirtilmedi"),
+                "",
+                "3. GELİŞTİRME VE PİLOT TEST:",
+                "- Materyaller: " + (document.getElementById('materialsList').value.trim() || "Belirtilmedi"),
+                "- Bilişsel Yük Önlemi: " + (document.getElementById('cognitiveLoad').value.trim() || "Belirtilmedi"),
+                "- Pilot Test: " + (document.getElementById('pilotTest').value.trim() || "Belirtilmedi")
+            ].join('\n');
+
+            const tempTextarea = document.createElement('textarea');
+            tempTextarea.value = summary;
+            document.body.appendChild(tempTextarea);
+            tempTextarea.select();
+            try {
+                document.execCommand('copy');
+                showToast('Sunum özeti panoya kopyalandı!');
+                document.getElementById('copyBtnText').textContent = 'Kopyalandı!';
+                setTimeout(() => {
+                    document.getElementById('copyBtnText').textContent = 'Kopyala';
+                }, 2000);
+            } catch (err) {
+                showToast('Kopyalama başarısız oldu.');
+            }
+            document.body.removeChild(tempTextarea);
+        }
+
+        // ==================== ZAMANLAYICI FONKSİYONLARI ====================
+        function toggleTimer() {
+            if (isTimerRunning) {
+                clearInterval(timerInterval);
+                isTimerRunning = false;
+                document.getElementById('timerIconPlay').classList.remove('hidden');
+                document.getElementById('timerIconPause').classList.add('hidden');
+            } else {
+                isTimerRunning = true;
+                document.getElementById('timerIconPlay').classList.add('hidden');
+                document.getElementById('timerIconPause').classList.remove('hidden');
+                timerInterval = setInterval(() => {
+                    if (totalSeconds > 0) {
+                        totalSeconds--;
+                        updateTimerDisplay();
+                    } else {
+                        clearInterval(timerInterval);
+                        isTimerRunning = false;
+                        showToast('30 dakikalık atölye süresi doldu! Sunumlara geçebilirsiniz.');
+                    }
+                }, 1000);
+            }
+        }
+
+        function resetTimer() {
+            clearInterval(timerInterval);
+            isTimerRunning = false;
+            totalSeconds = 30 * 60;
+            updateTimerDisplay();
+            document.getElementById('timerIconPlay').classList.remove('hidden');
+            document.getElementById('timerIconPause').classList.add('hidden');
+        }
+
+        function updateTimerDisplay() {
+            const mins = Math.floor(totalSeconds / 60);
+            const secs = totalSeconds % 60;
+            document.getElementById('timerDisplay').textContent =
+                `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+        }
+
+        // ==================== LOCALSTORAGE KAYIT & TEMİZLEME ====================
+        function saveAllData() {
+            const data = {
+                goal1: document.getElementById('goal1').value,
+                goal2: document.getElementById('goal2').value,
+                chkCondition: document.getElementById('chkCondition').checked,
+                chkBehavior: document.getElementById('chkBehavior').checked,
+                chkCriteria: document.getElementById('chkCriteria').checked,
+                chkNoVague: document.getElementById('chkNoVague').checked,
+                selectedMethods: selectedMethods,
+                methodRationale: document.getElementById('methodRationale').value,
+                kirkpatrickPlan: document.getElementById('kirkpatrickPlan').value,
+                materialsList: document.getElementById('materialsList').value,
+                cognitiveLoad: document.getElementById('cognitiveLoad').value,
+                pilotTest: document.getElementById('pilotTest').value
+            };
+            try {
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+            } catch (e) {
+                // Gizli sekme vb. durumlarda sessizce devam et
+            }
+        }
+
+        function loadSavedData() {
+            try {
+                const raw = localStorage.getItem(STORAGE_KEY);
+                if (!raw) return;
+                const data = JSON.parse(raw);
+
+                document.getElementById('goal1').value = data.goal1 || '';
+                document.getElementById('goal2').value = data.goal2 || '';
+                document.getElementById('chkCondition').checked = !!data.chkCondition;
+                document.getElementById('chkBehavior').checked = !!data.chkBehavior;
+                document.getElementById('chkCriteria').checked = !!data.chkCriteria;
+                document.getElementById('chkNoVague').checked = !!data.chkNoVague;
+                document.getElementById('methodRationale').value = data.methodRationale || '';
+                document.getElementById('kirkpatrickPlan').value = data.kirkpatrickPlan || '';
+                document.getElementById('materialsList').value = data.materialsList || '';
+                document.getElementById('cognitiveLoad').value = data.cognitiveLoad || '';
+                document.getElementById('pilotTest').value = data.pilotTest || '';
+
+                if (Array.isArray(data.selectedMethods)) {
+                    document.querySelectorAll('.method-btn').forEach(btn => {
+                        const titleText = btn.querySelector('.text-slate-900').textContent;
+                        // Eşleşen yöntemi aktif hale getir
+                        data.selectedMethods.forEach(savedMethod => {
+                            if (btn.getAttribute('onclick').includes(savedMethod)) {
+                                toggleMethod(btn, savedMethod);
+                            }
+                        });
+                    });
+                }
+            } catch (e) {
+                console.error(e);
+            }
+        }
+
+        function showResetModal() {
+            const modal = document.getElementById('resetModal');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        }
+
+        function hideResetModal() {
+            const modal = document.getElementById('resetModal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }
+
+        function confirmClearAll() {
+            localStorage.removeItem(STORAGE_KEY);
+            document.querySelectorAll('textarea').forEach(ta => ta.value = '');
+            document.querySelectorAll('input[type="checkbox"]').forEach(cb => cb.checked = false);
+            selectedMethods = [];
+            document.querySelectorAll('.method-btn').forEach(btn => {
+                btn.classList.add('bg-slate-50', 'border-slate-200');
+                btn.classList.remove('bg-blue-50', 'border-navy-800', 'ring-1', 'ring-navy-800');
+                const circle = btn.querySelector('.check-circle');
+                circle.classList.add('border-slate-400');
+                circle.classList.remove('bg-navy-800', 'border-navy-800', 'text-white');
+                circle.textContent = '';
+            });
+            document.getElementById('methodWarning').classList.add('hidden');
+            updateChecklist();
+            handleGoalInput();
+            hideResetModal();
+            goToStep(1);
+            showToast('Tüm alanlar sıfırlandı.');
+        }
+
+        function showToast(msg) {
+            const toast = document.getElementById('toastBox');
+            toast.textContent = msg;
+            toast.classList.remove('opacity-0');
+            setTimeout(() => {
+                toast.classList.add('opacity-0');
+            }, 2500);
+        }
+    </script>
+</body>
+</html>
